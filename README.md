@@ -1,71 +1,284 @@
-# Fireboard Alarm Simulator (FAS) – Übungsalarme für Fireboard
+# Fireboard Alarm Simulator (FAS)
 
-Der Fireboard Alarm Simulator – kurz **FAS** – schickt **Übungsalarme an
-Fireboard**. Die Alarme stehen in einer Excel-Tabelle. Sie werden entweder
-automatisch zu zufälligen Zeiten, nach einem festen Zeitplan oder per
-Tastendruck verschickt – so lässt sich eine Übung mit eingehenden Einsätzen
-realistisch durchspielen.
+**Übungsalarme für Fireboard – einfach aus einer Excel-Liste.**
 
-**Was man braucht**
+Du planst eine Übung für deine Feuerwehr, zum Beispiel eine Unwetterlage mit
+vielen Einsätzen gleichzeitig? FAS spielt dabei die **Leitstelle**: Es schickt
+die Einsätze aus deiner Excel-Liste in euren **Fireboard-Alarmeingang** – nach
+und nach, zu festen Zeiten oder auf Knopfdruck. Eure Führungskräfte arbeiten sie
+in Fireboard ab wie echte Einsätze.
 
-- einen Windows-PC (Windows 10/11) oder einen Mac
-- ein Fireboard-Konto mit dem Modul **Alarmverarbeitung** und dessen **AuthKey**
-  (Fireboard-Portal → Benutzerkonto → AuthKey-Verwaltung, Eintrag
-  „Alarmverarbeitung PLUS“)
-- eine Excel-Tabelle mit Alarmen – zwei Beispiele sind dabei
+```mermaid
+flowchart LR
+    A["📋 Excel-Liste<br/>mit Übungseinsätzen"] --> B["💻 FAS<br/>bei der Übungsleitung"]
+    B -- "Testalarme" --> C["🚒 Fireboard<br/>Alarmeingang"]
+    C --> D["🖥️ Fireboard Suite<br/>Einsatzleitung"]
+    C --> E["📱 Fireboard Mobile"]
+```
 
-Alle Alarme werden als **Testalarme** gekennzeichnet. Java oder eine andere
-Installation ist nicht nötig.
+Alle Alarme sind in Fireboard als **Testalarme** gekennzeichnet. FAS alarmiert
+**keine Einsatzkräfte** – es gibt keine Piepser-, SMS- oder App-Alarmierung,
+die Einsätze landen nur im Alarmeingang von Fireboard.
+
+## Was FAS kann
+
+- ⏱️ **Alarme automatisch verteilen** – z. B. 4 Einsätze alle 10 Minuten zu zufälligen Zeitpunkten
+- 📜 **Drehbuch** – bestimmte Einsätze zu festen Zeiten („nach 20 Minuten brennt die Scheune“)
+- 👆 **Von Hand** – die Übungsleitung schickt jeden Einsatz selbst ab
+- 🔥 **Lageänderungen** – ein Einsatz verschärft sich im Lauf der Übung (B2 → B3)
+- 🎲 **Zufallsalarme** – FAS würfelt Einsätze aus einer Stichwort- und Adressliste zusammen
+- 🧪 **Testlauf** – alles ausprobieren, ohne dass etwas gesendet wird
+- 📝 **Protokoll** – jede Meldung mit Uhrzeit, für die Nachbesprechung
+- 🔄 **Fortsetzen** – Laptop ausgegangen? Die Übung geht dort weiter, wo sie aufgehört hat
+
+## Was du brauchst
+
+- einen **Laptop oder PC mit Windows 10/11** (ein Mac geht auch, siehe [Mac](#mac))
+- ein **Fireboard-Konto** mit dem Modul *Alarmverarbeitung* – den dazugehörigen
+  **AuthKey** findest du im Fireboard-Portal unter *Benutzerkonto →
+  AuthKey-Verwaltung* (Eintrag „Alarmverarbeitung PLUS“)
+- eine **Excel-Liste** mit deinen Übungseinsätzen – zwei Beispiele sind dabei
+
+Installieren musst du nichts.
 
 ---
 
-## Erste Schritte (Windows)
+## In 5 Minuten zur ersten Übung
 
-1. **Herunterladen:** Auf der
-   [Releases-Seite](https://github.com/kventil/fireboard-alarm-simulator-releases/releases)
-   bei der neuesten Version (z. B. `v1.2.0`) die Datei
-   `fireboard-alarm-simulator-…-windows-x64.zip` herunterladen und entpacken.
+```mermaid
+flowchart LR
+    S1["1️⃣ Herunterladen"] --> S2["2️⃣ Datei wählen"] --> S3["3️⃣ Einstellungen"] --> S4["4️⃣ Testlauf"] --> S5["5️⃣ Übung live"]
+```
 
-2. **Starten:** Doppelklick auf **`fas.exe`**. Es öffnet sich der
-   Startbildschirm:
+### 1. Herunterladen
 
-   ```
-    FAS   Fireboard Alarm Simulator v1.2.0 · Übung einrichten
+Auf der
+[Download-Seite](https://github.com/kventil/fireboard-alarm-simulator-releases/releases)
+bei der neuesten Version die Datei **`…-windows-x64.zip`** herunterladen und
+entpacken (Rechtsklick → *Alle extrahieren*). Im Ordner liegen:
 
-    Schritt 1 · Welche Alarmdatei?
+- `fas.exe` – das Programm
+- `alarmdaten.xlsx` und `alarmdaten_tecklenburg.xlsx` – Beispiel-Listen
+- `README.md` – diese Anleitung (Bilder im Ordner `docs`)
 
-    › alarmdaten.xlsx                   4 Alarme
-      alarmdaten_tecklenburg.xlsx       24 Alarme · Zufallsdaten
-      Anderen Pfad eingeben …
-   ```
+### 2. Starten und Alarmliste wählen
 
-   > Beim ersten Start warnt Windows eventuell („Der Computer wurde durch Windows
-   > geschützt“). Dann auf *Weitere Informationen* → *Trotzdem ausführen* klicken.
+**Doppelklick auf `fas.exe`.** Es öffnet sich ein Fenster mit dem
+Startbildschirm. Mit den Pfeiltasten `↑` `↓` die Excel-Liste auswählen, dann
+`Enter`.
 
-3. **Ausprobieren:** Mit `↑` `↓` eine Datei wählen, `Enter`. In den
-   Einstellungen steht **Testlauf** schon voreingestellt – noch einmal `Enter`,
-   und die Übungsansicht öffnet sich. Im Testlauf wird **nichts** an Fireboard
-   gesendet, man kann gefahrlos alles ausprobieren (Tasten siehe
-   [unten](#tasten)).
+![Startbildschirm: Alarmliste wählen](docs/images/start-datei.png)
 
-4. **Echte Übung:** In den Einstellungen bei *Senden* mit `→` auf **Live**
-   wechseln, bei *Ablauf* Von Hand oder Automatisch wählen, `Enter`. Dann den
-   **AuthKey** eingeben oder einfügen (Rechtsklick / Strg+V) und `Enter`. Der
-   Key wird nicht gespeichert – er wird bei jedem Start neu abgefragt.
+> **Windows warnt beim ersten Start?** („Der Computer wurde durch Windows
+> geschützt“) – das ist bei neuen Programmen normal. Auf *Weitere
+> Informationen* → *Trotzdem ausführen* klicken.
 
-**Eigene Alarme verwenden:** Die eigene Excel-Datei in den Ordner von
-`fas.exe` legen – sie erscheint dann in der Liste. Oder die Datei im
-Explorer **auf `fas.exe` ziehen**: FAS startet direkt mit dieser Datei.
+Eigene Liste? Einfach die Excel-Datei in den Ordner von `fas.exe` legen – sie
+erscheint dann hier. Oder die Datei direkt **auf `fas.exe` ziehen**.
 
-**Wiederkehrende Übungen:** Wer den AuthKey nicht jedes Mal eintippen möchte,
-kann ihn in eine Textdatei schreiben (z. B. `key.txt`) und FAS mit
-`-keyfile` starten – siehe [AuthKey aus einer Datei](#authkey-aus-einer-datei).
+### 3. Einstellungen
 
-### Mac
+Mit `↑` `↓` zwischen den Zeilen wechseln, mit `←` `→` die Auswahl ändern.
+Zahlen einfach eintippen.
 
-Die Datei `fireboard-alarm-simulator-…-macos-arm64.zip` (Mac mit Apple-Chip,
-M1 und neuer) bzw. `…-macos-intel.zip` herunterladen und entpacken. Beim ersten
-Mal im Programm *Terminal* die Download-Sperre entfernen und FAS starten:
+![Startbildschirm: Einstellungen](docs/images/start-einstellungen.png)
+
+| Einstellung | Bedeutung |
+|---|---|
+| **Senden** | *Testlauf*: nichts wird gesendet – zum Ausprobieren. *Live*: die Alarme gehen an Fireboard. |
+| **Ablauf** | *Von Hand*: du schickst jeden Einsatz selbst ab. *Automatisch*: FAS verteilt die Einsätze, z. B. 4 Alarme alle 10 Minuten. |
+| **Zufallsalarme** | Zusätzliche, zufällig zusammengestellte Einsätze (nur bei Listen mit Zufallsdaten). |
+| **Was tun?** | Normalerweise *Übung starten*. Nach der Übung: *Alle Alarme der Datei schließen*. |
+
+### 4. Erst mal testen
+
+Lass *Senden* beim ersten Mal auf **Testlauf** und drück `Enter`. Die
+Übungsansicht öffnet sich – du kannst in Ruhe alles ausprobieren, in Fireboard
+kommt nichts an. Beenden mit `q`.
+
+### 5. Übung live
+
+FAS noch einmal starten, bei *Senden* **Live** wählen und `Enter`. Jetzt fragt
+FAS nach dem **AuthKey**: eintippen oder mit Rechtsklick / `Strg+V` einfügen,
+dann `Enter`. Der Key wird **nicht gespeichert** und bei jedem Start neu
+abgefragt.
+
+![Startbildschirm: AuthKey eingeben](docs/images/start-authkey.png)
+
+---
+
+## Während der Übung
+
+![Übungsansicht während einer laufenden Übung](docs/images/uebung.png)
+
+- **Oben** siehst du, ob wirklich gesendet wird (**LIVE**) oder nur geübt wird
+  (**TESTLAUF**), und wie viele Alarme schon raus sind.
+- **Übungszeit** läuft seit dem Start; bei Pause bleibt sie stehen.
+- **Die Liste** zeigt jeden Einsatz: `Z4` ist Zeile 4 deiner Excel-Liste.
+
+| Symbol | Bedeutung |
+|---|---|
+| `○` | wartet |
+| `●` | kommt als Nächstes – mit Countdown |
+| `◷` | kommt zu einer festen Zeit ([Drehbuch](#nach-drehbuch)) |
+| `✓` | gesendet |
+| `✗` | Fehler – was los ist, steht unter der Liste |
+| `Update ✓` | Lageänderung wurde gesendet; `Upd 4:12` = kommt in 4:12 Minuten |
+
+## Tasten
+
+| Taste | Was passiert |
+|---|---|
+| `↑` `↓` | Einsatz auswählen |
+| `Enter` | ausgewählten Einsatz **sofort** senden |
+| `Leertaste` | **Pause** – alles hält an, bis du noch mal die Leertaste drückst |
+| `u` | Lageänderung des Einsatzes senden |
+| `c` | ausgewählten Einsatz in Fireboard **schließen** |
+| `C` `C` | **alle** gesendeten Einsätze schließen (zweimal drücken) |
+| `z` | einen [Zufallsalarm](#zufallsalarme) hinzufügen |
+| `d` | Einsatz für diese Übung streichen (die Excel-Liste bleibt unverändert) |
+| `q` | beenden |
+
+---
+
+## Die Alarmliste (Excel)
+
+Jede Zeile ist ein Einsatz, in der ersten Zeile stehen die Spaltennamen. Am
+einfachsten nimmst du eine der Beispiel-Listen und änderst sie ab.
+
+| externalNumber | keyword | announcement | location | situation |
+|---|---|---|---|---|
+| UEB-001 | H1 - Unwetter/Baum | ÜBUNG - Baum auf Fahrbahn | Brochterbecker Straße 40, 49545 Tecklenburg | Baum liegt quer über beide Fahrstreifen |
+| UEB-002 | H0 - Unwetter/Wasser | ÜBUNG - Wasser im Keller | Markt 5, 49545 Tecklenburg | ca. 20 cm Wasser im Keller |
+
+| Spalte | Was kommt rein? |
+|---|---|
+| `externalNumber` | Einsatznummer – jede Nummer nur **einmal** |
+| `keyword` | Einsatzstichwort |
+| `announcement` | Alarmtext |
+| `location` | Adresse der Einsatzstelle |
+| `situation` | Meldebild |
+
+Es gibt noch mehr Spalten – Meldender, Koordinaten, Lageänderungen, feste
+Zeiten. Alle stehen in der [Spaltenübersicht](#alle-spalten).
+
+**Tipp:** Telefonnummern und Koordinaten als **Text** eintragen, damit Excel
+sie nicht umwandelt.
+
+---
+
+## Übungsarten
+
+### Automatisch verteilt
+
+*Ablauf* → **Automatisch**, dann Anzahl und Minuten einstellen, z. B. **4 Alarme
+alle 10 Minuten**. Wann genau die Einsätze innerhalb der 10 Minuten kommen, ist
+jedes Mal zufällig – die Anzahl stimmt aber immer.
+
+### Von Hand
+
+*Ablauf* → **Von Hand**. Nichts kommt von selbst: Du wählst in der
+Übungsansicht einen Einsatz aus und schickst ihn mit `Enter` ab – ideal, wenn
+die Übungsleitung auf die Lage reagieren will.
+
+### Nach Drehbuch
+
+Für Einsätze, die zu einer **festen Zeit** kommen sollen, bekommt die
+Excel-Liste eine Spalte **`zeitpunkt`**, gemessen ab Übungsbeginn:
+
+| zeitpunkt | Einsatz kommt … |
+|---|---|
+| `00:00` | sofort beim Start |
+| `05:00` | nach 5 Minuten |
+| `1:10:00` | nach 1 Stunde 10 Minuten |
+
+Das lässt sich mischen: feste Schlüsselereignisse im Drehbuch, dazwischen
+automatisch verteilte oder von Hand geschickte Einsätze. Ein Beispiel-Drehbuch:
+
+```mermaid
+flowchart LR
+    T0["⏱️ 00:00<br/>Keller unter Wasser"] --> T5["⏱️ 05:00<br/>Baum auf Fahrbahn"] --> T20["⏱️ 20:00<br/>Blitzeinschlag Scheune (B2)"] --> T28["🔥 28:00<br/>Lageänderung: Vollbrand (B3)"]
+```
+
+### Lageänderungen
+
+Ein Einsatz kann sich im Lauf der Übung verschärfen, z. B. von „Rauch aus dem
+Scheunendach“ (B2) zu „Scheune brennt in voller Ausdehnung“ (B3). Dafür in der
+Excel-Liste eintragen:
+
+- `update_keyword` – das neue Stichwort (B3 …)
+- `update_situation` – das neue Meldebild
+- `update_after` – wie lange nach dem Alarm, z. B. `08:00` für 8 Minuten
+
+Ohne `update_after` löst du die Lageänderung selbst mit der Taste `u` aus.
+
+### Zufallsalarme
+
+Keine Lust, jeden Einsatz einzeln zu schreiben? FAS kann Einsätze aus einer
+Liste von **Stichwörtern** und einer Liste von **Adressen** zusammenwürfeln –
+passend: Die brennende Scheune landet auf einem Hof, der umgestürzte Baum auf
+einer Straße. Im Startbildschirm die Anzahl bei *Zufallsalarme* eintragen,
+während der Übung kommen mit `z` weitere dazu.
+
+Die Beispiel-Liste `alarmdaten_tecklenburg.xlsx` enthält schon 14 Stichwörter
+und 24 Adressen. Wie du eigene anlegst, steht unter
+[Zufallsalarme einrichten](#zufallsalarme-einrichten).
+
+---
+
+## Nach der Übung
+
+- **Einsätze schließen:** `C` zweimal drücken. Oder später FAS starten und im
+  Startbildschirm *Was tun?* → **Alle Alarme der Datei schließen** wählen. Die
+  Einsätze verschwinden dann von den Fireboard-Geräten.
+- **Nachbesprechung:** Neben der Excel-Liste liegt jetzt eine Datei
+  `…_protokoll.csv`. Mit Excel öffnen – dort steht jede gesendete Meldung mit
+  Uhrzeit, Übungszeit und Ergebnis.
+
+---
+
+## Häufige Fragen
+
+**Werden unsere Einsatzkräfte alarmiert?**
+Nein. FAS schickt die Einsätze nur in den Fireboard-Alarmeingang. Piepser,
+Sirene, SMS oder Alarmierungs-Apps werden nicht ausgelöst.
+
+**Sieht man in Fireboard, dass es eine Übung ist?**
+Ja, alle Alarme sind als Testalarme gekennzeichnet. Zusätzlich empfehlen wir,
+im Alarmtext „ÜBUNG“ voranzustellen – wie in den Beispiel-Listen.
+
+**Wird mein AuthKey gespeichert?**
+Nein, nie. Du gibst ihn bei jedem Start ein. Wer das nicht jedes Mal möchte,
+kann ihn in eine Datei legen – siehe [AuthKey aus einer Datei](#authkey-aus-einer-datei).
+
+**Der Laptop ist mitten in der Übung ausgegangen.**
+Einfach FAS wieder starten. Es fragt „Letzte Übung fortsetzen?“ – mit `J` geht
+es dort weiter, wo es aufgehört hat. Schon gesendete Einsätze werden **nicht**
+noch einmal geschickt.
+
+**Fehler 401**
+Der AuthKey ist falsch, oder das Modul Alarmverarbeitung ist für euer Konto
+nicht freigeschaltet. Den Key im Fireboard-Portal prüfen.
+
+**„keine Verbindung“**
+Kein Internet, oder eine Firewall bzw. ein Proxy blockiert. Unter der Liste
+steht, woran es wahrscheinlich liegt.
+
+**Statt Symbolen erscheinen seltsame Zeichen.**
+Die alte Windows-Konsole kann nicht alle Zeichen darstellen. Unter Windows 11
+ist das neue *Windows Terminal* Standard und zeigt alles richtig an.
+
+**Der Einsatz kommt in Fireboard nicht an.**
+Im Fireboard-Portal unter *Alarmeingang* nachsehen. Dort lassen sich die
+Testalarme nach der Übung auch gesammelt löschen.
+
+---
+
+## Mac
+
+Die Datei `…-macos-arm64.zip` (Mac mit Apple-Chip, M1 und neuer) bzw.
+`…-macos-intel.zip` herunterladen und entpacken. Beim ersten Mal im Programm
+*Terminal* die Download-Sperre entfernen und FAS starten:
 
 ```
 cd ~/Downloads/fireboard-alarm-simulator-1.2.0-macos-arm64
@@ -73,181 +286,7 @@ xattr -d com.apple.quarantine fas
 ./fas
 ```
 
-Danach genügt ein Doppelklick auf `fas` im Finder – es öffnet sich das
-Terminal mit dem Startbildschirm.
-
----
-
-## Die Excel-Tabelle
-
-Jede Zeile ist ein Alarm, die erste Zeile enthält die Spaltennamen. Am
-einfachsten nimmt man eine der Beispieldateien als Vorlage und ändert die
-Einträge.
-
-| externalNumber | keyword | announcement | location | situation |
-|---|---|---|---|---|
-| TEST0001 | H1 - Unwetter/Baum | ÜBUNG - Baum auf Fahrbahn | Brochterbecker Straße 40, 49545 Tecklenburg | Baum liegt quer über beide Fahrstreifen |
-| TEST0002 | H0 - Unwetter/Wasser | ÜBUNG - Wasser im Keller | Markt 5, 49545 Tecklenburg | ca. 20 cm Wasser im Keller |
-
-Die wichtigsten Spalten:
-
-| Spalte | Bedeutung |
-|---|---|
-| `externalNumber` | Einsatznummer – muss **eindeutig** sein |
-| `keyword` | Einsatzstichwort |
-| `announcement` | Alarmnachricht |
-| `location` | Anschrift der Einsatzstelle |
-| `situation` | Meldebild |
-
-Weitere Spalten (Meldender, Koordinaten, Lage-Updates, feste Zeitpunkte …)
-stehen in der [Spaltenübersicht](#alle-spalten).
-
-**Tipp:** Telefonnummern und Koordinaten als **Text** eingeben, damit Excel sie
-nicht verändert.
-
----
-
-## Das Programmfenster
-
-```
-   FAS   LIVE   Fireboard Alarm Simulator v1.2.0
-  alarmdaten.xlsx · 24 Alarme · 4 pro 5:00 · JSON · Authkey ••••1234
-
-  ━━━━━━━━━━──────────────────────────────  4 / 24 gesendet  1 Fehler
-  Übungszeit 12:05 · Nächster Alarm in 2:41 · Intervall 3/6
-
-    ✓  13:18:24  Z2    TEST100001  H0 - Unwetter/Wasser · Markt 5, 49545 Tecklenburg   HTTP 200
-    ✗  13:18:25  Z3    TEST100002  H1 - Unwetter/Baum · Schloßstraße, 49545 Tecklen…   Alarm ✗ 401
-  › ●  in 2:41   Z4    TEST100003  H0 - Unwetter/Baum · Am Hagen, 49545 Tecklenburg
-    ◷  in 7:55   Z5    TEST100004  B2 - Brand · Sundern 12, 49545 Tecklenburg         Drehbuch 20:00
-    ○            Z6    TEST100005  H1 - Unwetter/Dach · Wellenberg 10, 49545 Tecklenburg
-
-  Letzter Fehler Zeile 3 (HTTP 401): Authkey vermutlich inkorrekt …
-```
-
-- **Oben:** Datei, Anzahl Alarme, Tempo – und ob gesendet wird: **LIVE** oder
-  **TESTLAUF** (nichts wird gesendet).
-- **Übungszeit:** läuft ab dem Start, steht während einer Pause still.
-- **Liste:** ein Alarm pro Zeile. `Z4` ist Zeile 4 der Excel-Tabelle, `›` markiert
-  den ausgewählten Alarm.
-
-| Symbol | Bedeutung |
-|---|---|
-| `○` | wartet |
-| `●` | kommt als Nächstes (mit Countdown) |
-| `◷` | kommt zu einer festen Zeit ([Drehbuch](#nach-drehbuch)) |
-| `✓` | gesendet |
-| `✗` | Fehler – die Erklärung steht unter der Liste |
-
-## Tasten
-
-| Taste | Was passiert |
-|---|---|
-| `↑` `↓` | Alarm auswählen |
-| `Enter` | ausgewählten Alarm **sofort** senden |
-| `Leertaste` | **Pause** – alles hält an, bis zur nächsten Leertaste |
-| `u` | Lage-Update des Alarms senden (z. B. „Scheune brennt jetzt vollständig“) |
-| `c` | ausgewählten Alarm in Fireboard **schließen** |
-| `C` `C` | **alle** gesendeten Alarme schließen (zweimal drücken) |
-| `z` | einen [Zufallsalarm](#zufallsalarme) hinzufügen |
-| `d` | Alarm für diese Übung streichen (die Excel-Datei bleibt unverändert) |
-| `q` | Programm beenden |
-
----
-
-## Eine Übung durchführen
-
-### Zufällig verteilt
-
-```
-fas.exe alarmdaten.xlsx MEINKEY 600 4
-```
-
-Im Startbildschirm: *Ablauf* → **Automatisch**, dann *Alarme* und *Intervall*
-einstellen – z. B. **4 Alarme alle 10 Minuten**. Wann genau innerhalb der
-10 Minuten, ist jedes Mal zufällig – die Anzahl stimmt aber immer. Als Befehl
-(Intervall in Sekunden) steht es oben.
-
-### Von Hand
-
-```
-fas.exe alarmdaten.xlsx MEINKEY
-```
-
-Im Startbildschirm: *Ablauf* → **Von Hand**. Es wird nichts automatisch
-gesendet; die Übungsleitung wählt einen Alarm mit `↑` `↓` und schickt ihn mit
-`Enter` ab.
-
-### Nach Drehbuch
-
-In der Excel-Tabelle eine Spalte **`zeitpunkt`** anlegen und eintragen, wann der
-Alarm kommen soll – gemessen ab Übungsbeginn:
-
-| zeitpunkt | Alarm kommt … |
-|---|---|
-| `00:00` | sofort beim Start |
-| `05:00` | nach 5 Minuten |
-| `1:10:00` | nach 1 Stunde 10 Minuten |
-
-Alarme mit Zeitpunkt werden immer automatisch gesendet. Zeilen ohne Zeitpunkt
-laufen wie gewohnt zufällig oder von Hand – beides lässt sich mischen: feste
-Schlüsselereignisse, dazwischen zufällige Alarme.
-
-### Zufallsalarme
-
-Statt jeden Alarm einzeln zu schreiben, kann FAS Alarme aus einer Liste von
-Einsatzstichwörtern und Adressen **zusammenwürfeln** – mit der Taste `z` oder
-beim Start mit `-random` (z. B. `fas.exe -random 20 alarmdaten_tecklenburg.xlsx MEINKEY 600 4`
-für 20 Zufallsalarme). Wie man die Listen anlegt, steht
-[hier](#zufallsalarme-einrichten). Die Tecklenburg-Beispieldatei enthält schon
-14 Stichwörter und 24 Adressen.
-
-### Lage-Updates
-
-Ein Alarm kann sich im Lauf der Übung verschärfen, z. B. von „Rauch aus dem
-Scheunendach“ (B2) zu „Scheune brennt in voller Ausdehnung“ (B3). Dazu in der
-Tabelle die neuen Angaben eintragen (`update_keyword`, `update_situation`) und
-in `update_after`, wie lange nach dem Alarm das Update kommen soll (z. B.
-`08:00`). Ohne Zeitangabe wird das Update mit `u` von Hand ausgelöst.
-
----
-
-## Nach der Übung
-
-- **Alarme schließen:** `C` zweimal drücken – oder später FAS starten und im
-  Startbildschirm bei *Was tun?* **Alle Alarme der Datei schließen** wählen. Die Alarme verschwinden dann von den Fireboard-Endgeräten.
-- **Protokoll:** Neben der Excel-Datei liegt eine Datei
-  `…_protokoll.csv`. Sie lässt sich mit Excel öffnen und zeigt jeden gesendeten
-  Alarm mit Uhrzeit, Übungszeit und Ergebnis – praktisch für die
-  Nachbesprechung.
-
-## Wenn etwas schiefgeht
-
-**Das Programm wurde mitten in der Übung beendet** (Laptop aus, Absturz, `q`)  
-Einfach wieder starten. FAS fragt „Fortsetzen?“ – mit `J` geht die Übung
-dort weiter, wo sie aufgehört hat. Bereits gesendete Alarme werden **nicht**
-noch einmal geschickt.
-
-**Fehler 401**  
-Der AuthKey ist falsch, oder das Modul Alarmverarbeitung ist für das Konto
-nicht freigeschaltet. AuthKey im Fireboard-Portal prüfen.
-
-**„keine Verbindung“**  
-Keine Internetverbindung, oder eine Firewall bzw. ein Proxy blockiert. Die
-Meldung unter der Liste nennt den wahrscheinlichen Grund.
-
-**Seltsame Zeichen statt Symbolen**  
-Die alte Windows-Konsole kann die Symbole nicht darstellen. Das *Windows
-Terminal* verwenden (Standard unter Windows 11) oder `-plain` hinter
-`fas.exe` ergänzen.
-
-**Der Alarm kommt in Fireboard nicht an**  
-Im Fireboard-Portal unter *Alarmeingang* nachsehen, ob er dort erscheint.
-Alle Alarme sind als Test gekennzeichnet und lassen sich dort auch gesammelt
-wieder löschen.
-
-**Der Mac verweigert den Start**  
-Die Download-Sperre entfernen, siehe [Mac](#mac).
+Danach genügt ein Doppelklick auf `fas` im Finder.
 
 ---
 ---
@@ -385,7 +424,7 @@ Mit `-seed` lässt sich eine Übung exakt wiederholen, z. B. 20 Zufallsalarme,
 fas -random 20 -seed 4711 alarmdaten_tecklenburg.xlsx <authkey> 600 4
 ```
 
-Eine Datei nur mit den Sheets `Stichwörter` und `Adressen` funktioniert auch –
+Eine Datei nur mit den Blättern `Stichwörter` und `Adressen` funktioniert auch –
 dann gibt es ausschließlich Zufallsalarme. `fas -close` schließt nur die
 Alarme der Tabelle; Zufallsalarme mit `C` in der Oberfläche schließen.
 
