@@ -385,7 +385,7 @@ Mit `-seed` lässt sich eine Übung exakt wiederholen, z. B. 20 Zufallsalarme,
 fas -random 20 -seed 4711 alarmdaten_tecklenburg.xlsx <authkey> 600 4
 ```
 
-Eine Datei nur mit den Blättern `Stichwörter` und `Adressen` funktioniert auch –
+Eine Datei nur mit den Sheets `Stichwörter` und `Adressen` funktioniert auch –
 dann gibt es ausschließlich Zufallsalarme. `fas -close` schließt nur die
 Alarme der Tabelle; Zufallsalarme mit `C` in der Oberfläche schließen.
 
