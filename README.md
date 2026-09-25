@@ -10,10 +10,10 @@ in Fireboard ab wie echte Einsätze.
 
 ```mermaid
 flowchart LR
-    A["📋 Excel-Liste<br/>mit Übungseinsätzen"] --> B["💻 FAS<br/>bei der Übungsleitung"]
-    B -- "Testalarme" --> C["🚒 Fireboard<br/>Alarmeingang"]
-    C --> D["🖥️ Fireboard Suite<br/>Einsatzleitung"]
-    C --> E["📱 Fireboard Mobile"]
+    A["Excel-Liste<br/>mit Übungseinsätzen"] --> B["FAS<br/>bei der Übungsleitung"]
+    B -- "Testalarme" --> C["Fireboard<br/>Alarmeingang"]
+    C --> D["Fireboard Suite<br/>Einsatzleitung"]
+    C --> E["Fireboard Mobile"]
 ```
 
 Alle Alarme sind in Fireboard als **Testalarme** gekennzeichnet. FAS alarmiert
@@ -22,14 +22,14 @@ die Einsätze landen nur im Alarmeingang von Fireboard.
 
 ## Was FAS kann
 
-- ⏱️ **Alarme automatisch verteilen** – z. B. 4 Einsätze alle 10 Minuten zu zufälligen Zeitpunkten
-- 📜 **Drehbuch** – bestimmte Einsätze zu festen Zeiten („nach 20 Minuten brennt die Scheune“)
-- 👆 **Von Hand** – die Übungsleitung schickt jeden Einsatz selbst ab
-- 🔥 **Lageänderungen** – ein Einsatz verschärft sich im Lauf der Übung (B2 → B3)
-- 🎲 **Zufallsalarme** – FAS würfelt Einsätze aus einer Stichwort- und Adressliste zusammen
-- 🧪 **Testlauf** – alles ausprobieren, ohne dass etwas gesendet wird
-- 📝 **Protokoll** – jede Meldung mit Uhrzeit, für die Nachbesprechung
-- 🔄 **Fortsetzen** – Laptop ausgegangen? Die Übung geht dort weiter, wo sie aufgehört hat
+- **Alarme automatisch verteilen** – z. B. 4 Einsätze alle 10 Minuten zu zufälligen Zeitpunkten
+- **Drehbuch** – bestimmte Einsätze zu festen Zeiten („nach 20 Minuten brennt die Scheune“)
+- **Von Hand** – die Übungsleitung schickt jeden Einsatz selbst ab
+- **Lageänderungen** – ein Einsatz verschärft sich im Lauf der Übung (B2 → B3)
+- **Zufallsalarme** – FAS würfelt Einsätze aus einer Stichwort- und Adressliste zusammen
+- **Testlauf** – alles ausprobieren, ohne dass etwas gesendet wird
+- **Protokoll** – jede Meldung mit Uhrzeit, für die Nachbesprechung
+- **Fortsetzen** – Laptop ausgegangen? Die Übung geht dort weiter, wo sie aufgehört hat
 
 ## Was du brauchst
 
@@ -47,7 +47,7 @@ Installieren musst du nichts.
 
 ```mermaid
 flowchart LR
-    S1["1️⃣ Herunterladen"] --> S2["2️⃣ Datei wählen"] --> S3["3️⃣ Einstellungen"] --> S4["4️⃣ Testlauf"] --> S5["5️⃣ Übung live"]
+    S1["1. Herunterladen"] --> S2["2. Datei wählen"] --> S3["3. Einstellungen"] --> S4["4. Testlauf"] --> S5["5. Übung live"]
 ```
 
 ### 1. Herunterladen
@@ -197,7 +197,7 @@ automatisch verteilte oder von Hand geschickte Einsätze. Ein Beispiel-Drehbuch:
 
 ```mermaid
 flowchart LR
-    T0["⏱️ 00:00<br/>Keller unter Wasser"] --> T5["⏱️ 05:00<br/>Baum auf Fahrbahn"] --> T20["⏱️ 20:00<br/>Blitzeinschlag Scheune (B2)"] --> T28["🔥 28:00<br/>Lageänderung: Vollbrand (B3)"]
+    T0["00:00<br/>Keller unter Wasser"] --> T5["05:00<br/>Baum auf Fahrbahn"] --> T20["20:00<br/>Blitzeinschlag Scheune (B2)"] --> T28["28:00<br/>Lageänderung: Vollbrand (B3)"]
 ```
 
 ### Lageänderungen
