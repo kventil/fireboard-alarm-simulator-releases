@@ -247,10 +247,40 @@ pausieren – von überall, wo das Handy Internet hat. Eine App ist nicht nötig
 3. Am Laptop erscheint dieselbe Zahl groß in einem Rahmen. Stimmen beide
    überein, am Laptop `J` drücken (sonst `N`).
 
+<img src="docs/images/handy-koppeln.png" alt="Handy wartet auf Freigabe und zeigt den Code 7631" width="300">
+
 Fertig – das Handy zeigt jetzt die nächsten Einsätze mit Countdown und die
-gesendeten. Im Live-Betrieb muss jedes Senden am Handy **zweimal** angetippt
-werden („Wirklich?“), damit nichts aus Versehen rausgeht. Alles, was per Handy
-passiert, steht im Protokoll mit dem Vermerk „per Handy“.
+gesendeten. Alles, was per Handy passiert, steht im Protokoll mit dem Vermerk
+„per Handy“.
+
+**Was die Fernbedienung zeigt:**
+
+<table>
+<tr>
+<td width="33%" valign="top"><img src="docs/images/handy-bestaetigen.png" alt="Senden-Knopf zeigt Wirklich?"></td>
+<td width="33%" valign="top"><img src="docs/images/handy-uebertragen.png" alt="Pause-Knopf zeigt Wird übertragen"></td>
+<td width="33%" valign="top"><img src="docs/images/handy-pause.png" alt="Übung pausiert, unten die Versionen"></td>
+</tr>
+<tr>
+<td valign="top"><b>Zweimal tippen.</b> Im Live-Betrieb wird aus „Senden“ nach dem ersten Tippen ein roter Knopf „Wirklich?“. Erst das zweite Tippen schickt den Alarm – so geht nichts aus Versehen raus.</td>
+<td valign="top"><b>Wird übertragen.</b> Bis der Laptop den Befehl bestätigt, dreht sich ein Kreis im Knopf. Das kann ein paar Sekunden dauern – bitte nicht mehrfach tippen.</td>
+<td valign="top"><b>Pausiert.</b> Oben steht „Pausiert“, der Knopf heißt jetzt „Fortsetzen“. Ganz unten stehen die Versionen von Steuerseite und FAS.</td>
+</tr>
+</table>
+
+Die Knöpfe im Überblick:
+
+| Knopf | Was passiert |
+|---|---|
+| **Senden** | Schickt den Alarm sofort, auch vor seiner geplanten Zeit. |
+| **Pause / Fortsetzen** | Hält den automatischen Ablauf an bzw. lässt ihn weiterlaufen. |
+| **Zufallsalarm** | Schickt einen zufälligen Alarm (nur, wenn die Liste Zufallsdaten hat). |
+| **Lage-Update** | Schickt die Lageänderung zu einem gesendeten Einsatz. |
+| **Schließen** | Schließt den Einsatz in Fireboard. |
+
+Sieht das Handy nach einem Update von FAS nicht alle Knöpfe, oder erscheint
+„Bitte die Seite neu laden“: die Seite im Browser neu laden oder den QR-Code
+noch einmal scannen.
 
 Mit `h` blendest du den QR-Code wieder aus, mit `x` (während er angezeigt wird)
 beendest du die Fernbedienung – verbundene Handys haben dann keinen Zugriff
