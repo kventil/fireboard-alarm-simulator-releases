@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; connect-src https: http://127.0.0.1:* http://localhost:*; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex">
+<title>FAS Fernbedienung</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="title"><span class="badge">FAS</span> Fernbedienung</div>
+  <div id="mode" class="mode" hidden></div>
+</header>
+
+<main>
+  <section id="status" class="status">Verbinde …</section>
+
+  <section id="pairing" class="pairing" hidden>
+    <p>Am Laptop erscheint jetzt eine Anfrage. Prüfe, ob dort derselbe Code steht, und bestätige am Laptop mit <strong>J</strong>.</p>
+    <div id="code" class="code"></div>
+  </section>
+
+  <section id="control" hidden>
+    <div class="summary">
+      <div><span class="label">Übungszeit</span><span id="clock" class="value">0:00</span></div>
+      <div><span class="label">Gesendet</span><span id="sent" class="value">0 / 0</span></div>
+      <div><span class="label">Ablauf</span><span id="flow" class="value">–</span></div>
+    </div>
+    <div class="actions">
+      <button id="pause" type="button">Pause</button>
+      <button id="random" type="button" hidden>Zufallsalarm</button>
+    </div>
+    <h2>Als Nächstes</h2>
+    <ul id="upcoming" class="rows"></ul>
+    <h2>Gesendet</h2>
+    <ul id="done" class="rows"></ul>
+  </section>
+
+  <div id="toast" class="toast" hidden></div>
+</main>
+
+<footer>Die Verbindung ist Ende-zu-Ende verschlüsselt. Diese Seite speichert keine Alarmdaten.</footer>
+<script type="module" src="app.js"></script>
+</body>
+</html>

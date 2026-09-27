@@ -30,6 +30,7 @@ die Einsätze landen nur im Alarmeingang von Fireboard.
 - **Testlauf** – alles ausprobieren, ohne dass etwas gesendet wird
 - **Protokoll** – jede Meldung mit Uhrzeit, für die Nachbesprechung
 - **Fortsetzen** – Laptop ausgegangen? Die Übung geht dort weiter, wo sie aufgehört hat
+- **Fernbedienung per Handy** – Alarme vom Handy aus senden, auch unterwegs, ohne App
 
 ## Was du brauchst
 
@@ -137,6 +138,7 @@ abgefragt.
 | `C` `C` | **alle** gesendeten Einsätze schließen (zweimal drücken) |
 | `z` | einen [Zufallsalarm](#zufallsalarme) hinzufügen |
 | `d` | Einsatz für diese Übung streichen (die Excel-Liste bleibt unverändert) |
+| `h` | [Handy als Fernbedienung](#handy-als-fernbedienung) verbinden |
 | `q` | beenden |
 
 ---
@@ -226,6 +228,40 @@ und 24 Adressen. Wie du eigene anlegst, steht unter
 
 ---
 
+## Handy als Fernbedienung
+
+Die Übungsleitung muss nicht am Laptop sitzen: Mit dem Handy lassen sich
+Alarme senden, Lageänderungen auslösen, Einsätze schließen und die Übung
+pausieren – von überall, wo das Handy Internet hat. Eine App ist nicht nötig.
+
+<img src="docs/images/handy.png" alt="Fernbedienung auf dem Handy" width="300">
+
+**So verbindest du ein Handy:**
+
+1. In der Übungsansicht am Laptop die Taste `h` drücken. Es erscheint ein
+   QR-Code.
+2. Den QR-Code mit der Handy-Kamera scannen. Im Browser öffnet sich die
+   Fernbedienung und zeigt eine **vierstellige Zahl**.
+3. Am Laptop erscheint eine Anfrage mit einer Zahl. Stimmt sie mit dem Handy
+   überein, am Laptop `J` drücken.
+
+Fertig – das Handy zeigt jetzt die nächsten Einsätze mit Countdown und die
+gesendeten. Im Live-Betrieb muss jedes Senden am Handy **zweimal** angetippt
+werden („Wirklich?“), damit nichts aus Versehen rausgeht. Alles, was per Handy
+passiert, steht im Protokoll mit dem Vermerk „per Handy“.
+
+Mit `h` blendest du den QR-Code wieder aus, mit `x` (während er angezeigt wird)
+beendest du die Fernbedienung – verbundene Handys haben dann keinen Zugriff
+mehr. Beim Beenden von FAS endet sie automatisch.
+
+**Sicherheit in Kürze:** Die Verbindung ist Ende-zu-Ende verschlüsselt. Ein
+Handy darf erst steuern, wenn du es am Laptop freigegeben hast, und es kann
+nur Alarme der laufenden Übung senden – den AuthKey sieht es nie. Den QR-Code
+trotzdem wie ein Passwort behandeln: nicht fotografieren, nicht weitergeben.
+Details unter [Fernbedienung: Technik und Sicherheit](#fernbedienung-technik-und-sicherheit).
+
+---
+
 ## Nach der Übung
 
 - **Einsätze schließen:** `C` zweimal drücken. Oder später FAS starten und im
@@ -267,6 +303,12 @@ steht, woran es wahrscheinlich liegt.
 **Statt Symbolen erscheinen seltsame Zeichen.**
 Die alte Windows-Konsole kann nicht alle Zeichen darstellen. Unter Windows 11
 ist das neue *Windows Terminal* Standard und zeigt alles richtig an.
+
+**Das Handy zeigt „Verbindung unterbrochen“ oder die Fernbedienung am Laptop
+„keine Verbindung zum Relay“.**
+Beide Geräte brauchen Internet. Die Fernbedienung verbindet sich von selbst neu,
+sobald die Verbindung wieder da ist. Die Übung am Laptop läuft in der
+Zwischenzeit normal weiter.
 
 **Der Einsatz kommt in Fireboard nicht an.**
 Im Fireboard-Portal unter *Alarmeingang* nachsehen. Dort lassen sich die
@@ -319,6 +361,8 @@ Startbildschirm zeigt zu den gewählten Einstellungen den passenden Befehl an.
 | `-seed n` | Startwert für Zufallsalarme: gleicher Seed = gleiche Übung. Ohne Angabe zufällig; der verwendete Seed steht im Kopf der Oberfläche |
 | `-resume` / `-fresh` | Eine unterbrochene Übung ohne Nachfrage fortsetzen bzw. neu beginnen |
 | `-keyfile datei` | AuthKey aus einer Textdatei lesen statt als Parameter, siehe unten |
+| `-relay url` | Fernbedienung: eigenen ntfy-Server statt `https://ntfy.sh` verwenden |
+| `-remote-page url` | Fernbedienung: eigene Adresse der Steuerseite statt der GitHub-Pages-Seite |
 | `FAS_URL` | Umgebungsvariable, ersetzt `https://login.fireboard.net/api` (z. B. für einen Testserver) |
 
 Weitere Tasten: `j` `k` (wie `↑` `↓`), `g` / `G` (zum ersten / letzten Alarm),
@@ -465,6 +509,54 @@ Fortsetzen? [J/n]
 - Im Startbildschirm erscheint die Frage als eigener Schritt; `-resume` bzw.
   `-fresh` beantworten sie vorab.
   Ohne Terminal (umgeleitete Ausgabe) beginnt die Übung ohne `-resume` neu.
+
+## Fernbedienung: Technik und Sicherheit
+
+Handy und Laptop befinden sich meist in verschiedenen Netzen (Mobilfunk,
+Feuerwehrhaus-WLAN) und können sich nicht direkt erreichen. Die Nachrichten
+laufen deshalb über ein **Relay**: standardmäßig den öffentlichen, quelloffenen
+Dienst [ntfy.sh](https://ntfy.sh). Das Relay ist „blind“ – es sieht nur
+zufällige Kanalnamen und verschlüsselte Daten.
+
+```mermaid
+flowchart LR
+    H["Handy<br/>Steuerseite im Browser"] -- "verschlüsselt" --> R["Relay (ntfy)<br/>sieht nur Chiffretext"]
+    R -- "verschlüsselt" --> L["FAS auf dem Laptop<br/>nur ausgehende Verbindung"]
+    L -- "verschlüsselt" --> R
+    R -- "verschlüsselt" --> H
+```
+
+- **Schlüssel:** Der QR-Code enthält einen zufälligen 256-Bit-Schlüssel im
+  `#`-Teil der Adresse. Browser schicken diesen Teil an keinen Server; die
+  Steuerseite entfernt ihn nach dem Öffnen aus der Adresszeile.
+- **Verschlüsselung:** Jede Nachricht ist mit AES-256-GCM verschlüsselt und je
+  Richtung gebunden, sodass Nachrichten nicht zurückgespiegelt werden können.
+- **Freigabe je Gerät:** Jedes Handy erzeugt ein eigenes Schlüsselpaar (P-256)
+  und unterschreibt jeden Befehl. FAS nimmt nur Befehle von Geräten an, die am
+  Laptop freigegeben wurden; die vierstellige Zahl auf beiden Geräten stellt
+  sicher, dass das richtige Handy freigegeben wird. Ein abfotografierter
+  QR-Code allein genügt also nicht zum Steuern.
+- **Keine Wiederholungen:** Befehle tragen fortlaufende Nummern, alte oder
+  doppelte werden verworfen.
+- **Wenig Rechte:** Das Handy kann nur, was die Tasten der Übungsansicht
+  können. AuthKey, Datei und Einstellungen bleiben auf dem Laptop.
+- **Sichtbarkeit:** Wer den QR-Code hat, kann den Übungsstand mitlesen, aber
+  ohne Freigabe nichts steuern.
+- **Nur ausgehend:** FAS öffnet keinen Port. Es gibt keine Firewall-Abfrage und
+  keine Router-Einstellung; es funktioniert im WLAN, über Mobilfunk und am
+  Hotspot.
+- **Grenzen:** Fällt ntfy.sh aus, funktioniert die Fernbedienung nicht – die
+  Übung am Laptop läuft normal weiter. Der Übungsstand wird höchstens alle
+  5 Sekunden ans Handy geschickt (Grenzen von ntfy.sh).
+
+**Selbst betreiben:** Wer auch das Relay und die Steuerseite in eigener Hand
+haben möchte, kann einen eigenen [ntfy-Server](https://docs.ntfy.sh/install/)
+(ein einzelnes Programm) aufsetzen und die Dateien aus `web/remote` auf einem
+eigenen Webserver ablegen:
+
+```
+fas -relay https://ntfy.meine-feuerwehr.de -remote-page https://meine-feuerwehr.de/fas/ …
+```
 
 ## Protokoll
 

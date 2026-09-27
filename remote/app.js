@@ -1,0 +1,293 @@
+// FAS remote control page. Talks to the laptop through the relay; everything
+// is end-to-end encrypted (see fascrypto.js).
+import * as fc from "./fascrypto.js";
+
+const $ = (id) => document.getElementById(id);
+const DEFAULT_RELAY = "https://ntfy.sh";
+
+let keys, dev, relay;
+let paired = false;
+let state = null; // latest state from the laptop
+let offset = 0; // phone clock minus laptop clock
+let lastSeen = 0; // when the last message arrived (phone time)
+let lastSeq = 0; // commands need increasing numbers, also across reloads
+let armedKey = null, armedUntil = 0; // LIVE: first tap arms, second sends
+const sentAt = new Map(); // button key -> time tapped; hides it until the laptop confirms
+
+// --- start ---------------------------------------------------------------
+
+async function main() {
+  const session = readSession();
+  if (!session) {
+    status("Bitte den QR-Code in FAS am Laptop scannen (Taste h in der Übungsansicht).", true);
+    return;
+  }
+  relay = session.relay;
+  keys = await fc.deriveKeys(fc.unb64url(session.k));
+  dev = await loadDevice();
+  subscribe();
+  setInterval(render, 1000);
+}
+
+// readSession takes the secret from the link and removes it from the address
+// bar, so it does not end up in bookmarks, screenshots or the history. It
+// stays in this browser tab only (sessionStorage) for reloads.
+function readSession() {
+  const params = new URLSearchParams(location.hash.slice(1));
+  if (params.get("k")) {
+    const s = { k: params.get("k"), relay: params.get("r") || DEFAULT_RELAY };
+    sessionStorage.setItem("fas-session", JSON.stringify(s));
+    history.replaceState(null, "", location.pathname);
+    return s;
+  }
+  const stored = sessionStorage.getItem("fas-session");
+  return stored ? JSON.parse(stored) : null;
+}
+
+// loadDevice keeps this phone's signing key, so a reload does not need a new
+// approval. The key never leaves the phone.
+async function loadDevice() {
+  const stored = localStorage.getItem("fas-device");
+  if (stored) {
+    try {
+      return await fc.importDevice(JSON.parse(stored));
+    } catch {
+      /* create a new one */
+    }
+  }
+  const d = await fc.newDevice();
+  localStorage.setItem("fas-device", JSON.stringify(await fc.exportDevice(d)));
+  return d;
+}
+
+function deviceName() {
+  const ua = navigator.userAgent;
+  if (/iPhone/.test(ua)) return "iPhone";
+  if (/iPad/.test(ua)) return "iPad";
+  if (/Android/.test(ua)) return "Android";
+  return "Browser";
+}
+
+// --- relay -----------------------------------------------------------------
+
+function subscribe() {
+  const es = new EventSource(`${relay}/${keys.topicDown}/sse`);
+  es.onopen = () => {
+    if (!paired) status("Verbunden mit dem Relay, frage beim Laptop an …");
+    post(fc.hello(keys, dev, deviceName()));
+    if (!paired) showPairing();
+  };
+  es.onerror = () => status("Verbindung unterbrochen – versuche es erneut …", true);
+  es.onmessage = async (ev) => {
+    let m;
+    try {
+      m = await fc.readDown(keys, JSON.parse(ev.data).message);
+    } catch {
+      return; // not for us
+    }
+    lastSeen = Date.now();
+    handle(m);
+  };
+}
+
+async function post(msgPromise) {
+  try {
+    const res = await fetch(`${relay}/${keys.topicUp}`, {
+      method: "POST",
+      body: await msgPromise,
+      headers: { "X-Firebase": "no" },
+    });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  } catch (e) {
+    toast("Senden an das Relay fehlgeschlagen: " + e.message);
+  }
+}
+
+function send(c, u) {
+  lastSeq = Math.max(Date.now(), lastSeq + 1);
+  post(fc.command(keys, dev, lastSeq, c, u));
+}
+
+// --- messages from the laptop ----------------------------------------------
+
+function handle(m) {
+  switch (m.t) {
+    case "pair":
+      if (m.id !== dev.id) return;
+      if (m.ok) {
+        paired = true;
+        $("pairing").hidden = true;
+        $("control").hidden = false;
+        status("Verbunden. Befehle werden direkt an FAS geschickt.");
+      } else {
+        paired = false;
+        $("pairing").hidden = true;
+        $("control").hidden = true;
+        status("Am Laptop abgelehnt. Für einen neuen Versuch am Laptop einen neuen QR-Code anzeigen.", true);
+      }
+      break;
+    case "state":
+      state = m;
+      offset = Date.now() - m.now;
+      render();
+      break;
+    case "err":
+      if (m.id === dev.id) toast(m.msg);
+      break;
+  }
+}
+
+// --- display ---------------------------------------------------------------
+
+function status(text, error = false) {
+  const el = $("status");
+  el.textContent = text;
+  el.classList.toggle("error", error);
+}
+
+function showPairing() {
+  $("pairing").hidden = false;
+  $("code").textContent = dev.code;
+}
+
+let toastTimer;
+function toast(text) {
+  const el = $("toast");
+  el.textContent = text;
+  el.hidden = false;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => (el.hidden = true), 6000);
+}
+
+function laptopNow() {
+  return Date.now() - offset;
+}
+
+function fmt(ms) {
+  const s = Math.max(0, Math.round(ms / 1000));
+  const h = Math.floor(s / 3600);
+  const mm = Math.floor((s % 3600) / 60);
+  const ss = String(s % 60).padStart(2, "0");
+  return h > 0 ? `${h}:${String(mm).padStart(2, "0")}:${ss}` : `${mm}:${ss}`;
+}
+
+function render() {
+  if (!state || !paired) return;
+  if (Date.now() - lastSeen > 60000) {
+    status("Seit über einer Minute keine Nachricht vom Laptop – läuft FAS noch?", true);
+  }
+  const mode = $("mode");
+  mode.hidden = false;
+  mode.textContent = state.live ? "LIVE" : "TESTLAUF";
+  mode.className = "mode " + (state.live ? "live" : "test");
+
+  $("clock").textContent = fmt(state.paused ? state.clock : laptopNow() - state.base);
+  $("sent").textContent = `${state.sent} / ${state.total}`;
+  $("flow").textContent = state.paused ? "Pausiert" : state.mode === "auto" ? "Automatisch" : "Von Hand";
+  $("pause").textContent = state.paused ? "Fortsetzen" : "Pause";
+  $("random").hidden = !state.random;
+
+  const upcoming = [], done = [];
+  for (const r of state.rows || []) {
+    (["pending", "next", "timed", "sending"].includes(r.s) ? upcoming : done).push(r);
+  }
+  fill($("upcoming"), upcoming, "Keine weiteren Alarme.");
+  fill($("done"), done, "Noch nichts gesendet.");
+}
+
+function fill(list, rows, emptyText) {
+  list.replaceChildren();
+  if (rows.length === 0) {
+    const li = document.createElement("li");
+    li.className = "empty";
+    li.textContent = emptyText;
+    list.append(li);
+    return;
+  }
+  for (const r of rows) list.append(rowItem(r));
+}
+
+function rowItem(r) {
+  const li = document.createElement("li");
+  const head = el("div", "head");
+  head.append(el("span", "kw", `${r.l} · ${r.k || "(ohne Stichwort)"}`), el("span", "meta", meta(r)));
+  li.append(head, el("div", "addr", r.a || ""));
+
+  const btns = el("div", "btns");
+  if (["pending", "next", "timed"].includes(r.s)) {
+    btns.append(button("Senden", "send", r, true));
+  }
+  if (["sent", "failed"].includes(r.s)) {
+    if (r.s === "failed") btns.append(button("Erneut senden", "send", r));
+    if (r.upd === "open") btns.append(button("Lage-Update", "update", r));
+    btns.append(button("Schließen", "close", r));
+  }
+  if (btns.childElementCount) li.append(btns);
+  return li;
+}
+
+function meta(r) {
+  switch (r.s) {
+    case "next":
+    case "timed":
+      if (!r.due || state.paused) return r.s === "timed" ? "Drehbuch" : "als Nächstes";
+      return "in " + fmt(r.due - laptopNow());
+    case "sending":
+      return "wird gesendet …";
+    case "sent":
+      return r.upd === "sent" ? "Update gesendet" : "gesendet";
+    case "failed":
+      return r.i || "Fehler";
+    case "closed":
+      return "geschlossen";
+  }
+  return "";
+}
+
+function el(tag, cls, text) {
+  const e = document.createElement(tag);
+  e.className = cls;
+  if (text !== undefined) e.textContent = text;
+  return e;
+}
+
+// button: in LIVE mode the first tap arms the button, the second sends.
+// After sending, the button stays disabled until the laptop reports a change
+// (at most 15 s), so a slow update cannot lead to a double send.
+function button(text, cmd, r, primary = false) {
+  const b = document.createElement("button");
+  const key = cmd + ":" + r.u + ":" + r.s + ":" + (r.upd || "");
+  b.type = "button";
+  b.textContent = text;
+  if (primary) b.className = "primary";
+  if (Date.now() - (sentAt.get(key) || 0) < 15000) {
+    b.disabled = true;
+    b.textContent = "Gesendet …";
+    return b;
+  }
+  if (key === armedKey && Date.now() < armedUntil) arm(b);
+  b.onclick = () => {
+    if (state.live && !(key === armedKey && Date.now() < armedUntil)) {
+      armedKey = key;
+      armedUntil = Date.now() + 4000;
+      render();
+      return;
+    }
+    armedKey = null;
+    sentAt.set(key, Date.now());
+    send(cmd, r.u);
+    render();
+  };
+  return b;
+}
+
+function arm(b) {
+  b.classList.add("armed");
+  b.classList.remove("primary");
+  b.textContent = "Wirklich?";
+}
+
+$("pause").onclick = () => paired && send("pause");
+$("random").onclick = () => paired && send("random");
+
+main().catch((e) => status("Fehler: " + e.message, true));
