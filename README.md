@@ -547,6 +547,11 @@ flowchart LR
 - **Nur ausgehend:** FAS öffnet keinen Port. Es gibt keine Firewall-Abfrage und
   keine Router-Einstellung; es funktioniert im WLAN, über Mobilfunk und am
   Hotspot.
+- **Versionen:** Die Steuerseite zeigt unten ihre Version und die von FAS
+  („Steuerseite v1.5.0 · FAS v1.5.0“), am Laptop steht die Version der Seite
+  jedes verbundenen Handys. Die Seite bietet nur Befehle an, die die
+  FAS-Version am Laptop kennt. Ist die Seite zu alt, erscheint der Hinweis,
+  sie neu zu laden.
 - **Grenzen:** Fällt ntfy.sh aus, funktioniert die Fernbedienung nicht – die
   Übung am Laptop läuft normal weiter. Der Übungsstand wird höchstens alle
   5 Sekunden ans Handy geschickt (Grenzen von ntfy.sh).

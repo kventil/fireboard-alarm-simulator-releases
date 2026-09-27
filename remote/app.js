@@ -1,6 +1,7 @@
 // FAS remote control page. Talks to the laptop through the relay; everything
 // is end-to-end encrypted (see fascrypto.js).
 import * as fc from "./fascrypto.js";
+import { PAGE_VERSION } from "./version.js";
 
 const $ = (id) => document.getElementById(id);
 const DEFAULT_RELAY = "https://ntfy.sh";
@@ -8,6 +9,11 @@ const DEFAULT_RELAY = "https://ntfy.sh";
 let keys, dev, relay;
 let paired = false;
 let connLost = false; // relay connection interrupted (EventSource reconnects by itself)
+
+// What the laptop told us about itself. Older FAS versions send no list of
+// commands; they accept these.
+const DEFAULT_CMDS = ["send", "update", "close", "pause", "random"];
+let laptop = { app: "", api: 1, cmds: DEFAULT_CMDS };
 let state = null; // latest state from the laptop
 let offset = 0; // phone clock minus laptop clock
 let lastSeen = 0; // when the last message arrived (phone time)
@@ -23,12 +29,17 @@ const PENDING_TIMEOUT = 30000;
 // --- start ---------------------------------------------------------------
 
 async function main() {
+  $("versions").textContent = `Steuerseite v${PAGE_VERSION}`;
   const session = readSession();
   if (!session) {
     status("Bitte den QR-Code in FAS am Laptop scannen (Taste h in der Übungsansicht).", true);
     return;
   }
   relay = session.relay;
+  if (!fc.TRANSPORTS.includes(session.v)) {
+    status("Diese FAS-Version ist neuer als diese Steuerseite. Bitte die Seite neu laden (ggf. den QR-Code erneut scannen).", true);
+    return;
+  }
   keys = await fc.deriveKeys(fc.unb64url(session.k));
   dev = await loadDevice();
   subscribe();
@@ -41,13 +52,13 @@ async function main() {
 function readSession() {
   const params = new URLSearchParams(location.hash.slice(1));
   if (params.get("k")) {
-    const s = { k: params.get("k"), relay: params.get("r") || DEFAULT_RELAY };
+    const s = { k: params.get("k"), v: Number(params.get("v") || 1), relay: params.get("r") || DEFAULT_RELAY };
     sessionStorage.setItem("fas-session", JSON.stringify(s));
     history.replaceState(null, "", location.pathname);
     return s;
   }
   const stored = sessionStorage.getItem("fas-session");
-  return stored ? JSON.parse(stored) : null;
+  return stored ? { v: 1, ...JSON.parse(stored) } : null;
 }
 
 // loadDevice keeps this phone's signing key, so a reload does not need a new
@@ -81,7 +92,7 @@ function subscribe() {
   es.onopen = () => {
     connLost = false;
     if (!paired) status("Verbunden mit dem Relay, frage beim Laptop an …");
-    post(fc.hello(keys, dev, deviceName()));
+    post(fc.hello(keys, dev, deviceName(), PAGE_VERSION));
     if (!paired) showPairing();
   };
   es.onerror = () => {
@@ -124,6 +135,14 @@ function handle(m) {
   switch (m.t) {
     case "pair":
       if (m.id !== dev.id) return;
+      learn(m);
+      if (!m.ok && m.reason === "page-too-old") {
+        paired = false;
+        $("pairing").hidden = true;
+        $("control").hidden = true;
+        status(`Diese Steuerseite (v${PAGE_VERSION}) ist zu alt für FAS v${m.app}. Bitte die Seite neu laden.`, true);
+        return;
+      }
       if (m.ok) {
         paired = true;
         $("pairing").hidden = true;
@@ -137,6 +156,7 @@ function handle(m) {
       }
       break;
     case "state":
+      learn(m);
       state = m;
       offset = Date.now() - m.now;
       for (const [key, p] of pendingCmds) if (p.done(state)) pendingCmds.delete(key);
@@ -150,6 +170,18 @@ function handle(m) {
       }
       break;
   }
+}
+
+// learn takes over what the laptop says about its version and commands.
+function learn(m) {
+  if (m.app) laptop.app = m.app;
+  if (m.api) laptop.api = m.api;
+  if (Array.isArray(m.cmds)) laptop.cmds = m.cmds;
+  $("versions").textContent = `Steuerseite v${PAGE_VERSION}` + (laptop.app ? ` · FAS v${laptop.app}` : "");
+}
+
+function can(cmd) {
+  return laptop.cmds.includes(cmd);
 }
 
 // --- display ---------------------------------------------------------------
@@ -219,7 +251,8 @@ function render() {
   $("flow").textContent = state.paused ? "Pausiert" : state.mode === "auto" ? "Automatisch" : "Von Hand";
   pendingButton($("pause"), "pause", state.paused ? "Fortsetzen" : "Pause");
   pendingButton($("random"), "random", "Zufallsalarm");
-  $("random").hidden = !state.random;
+  $("random").hidden = !state.random || !can("random");
+  $("pause").hidden = !can("pause");
 
   const upcoming = [], done = [];
   for (const r of state.rows || []) {
@@ -248,13 +281,14 @@ function rowItem(r) {
   li.append(head, el("div", "addr", r.a || ""));
 
   const btns = el("div", "btns");
-  if (["pending", "next", "timed"].includes(r.s)) {
+  // Only commands the laptop accepts (older FAS versions may know fewer).
+  if (["pending", "next", "timed"].includes(r.s) && can("send")) {
     btns.append(button("Senden", "send", r, true));
   }
   if (["sent", "failed"].includes(r.s)) {
-    if (r.s === "failed") btns.append(button("Erneut senden", "send", r));
-    if (r.upd === "open") btns.append(button("Lage-Update", "update", r));
-    btns.append(button("Schließen", "close", r));
+    if (r.s === "failed" && can("send")) btns.append(button("Erneut senden", "send", r));
+    if (r.upd === "open" && can("update")) btns.append(button("Lage-Update", "update", r));
+    if (can("close")) btns.append(button("Schließen", "close", r));
   }
   if (btns.childElementCount) li.append(btns);
   return li;

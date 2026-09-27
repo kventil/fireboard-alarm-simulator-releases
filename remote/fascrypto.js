@@ -7,6 +7,12 @@ const dec = new TextDecoder();
 export const LABEL_UP = "fas-up-v1";
 export const LABEL_DOWN = "fas-down-v1";
 
+// Versions, see internal/remote/remote.go: TRANSPORTS are the encryption and
+// relay schemes this page speaks (v= in the QR code), API_LEVEL the level of
+// messages and commands.
+export const TRANSPORTS = [1];
+export const API_LEVEL = 1;
+
 export function b64url(bytes) {
   let s = "";
   for (const b of new Uint8Array(bytes)) s += String.fromCharCode(b);
@@ -94,8 +100,8 @@ async function signed(keys, dev, payload) {
   return seal(keys, LABEL_UP, enc.encode(JSON.stringify({ p, s: b64url(sig) })));
 }
 
-export function hello(keys, dev, name) {
-  return signed(keys, dev, { t: "hello", dev: b64url(dev.raw), name });
+export function hello(keys, dev, name, page) {
+  return signed(keys, dev, { t: "hello", dev: b64url(dev.raw), name, page, api: API_LEVEL });
 }
 
 export function command(keys, dev, seq, c, u) {

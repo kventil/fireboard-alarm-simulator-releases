@@ -152,3 +152,4 @@ h2 { font-size: 14px; text-transform: uppercase; letter-spacing: .05em; color: v
   margin: 0 auto;
 }
 footer { color: var(--dim); font-size: 13px; text-align: center; padding: 0 16px 24px; }
+.versions { margin-top: 6px; font-variant-numeric: tabular-nums; }
