@@ -239,11 +239,13 @@ pausieren – von überall, wo das Handy Internet hat. Eine App ist nicht nötig
 **So verbindest du ein Handy:**
 
 1. In der Übungsansicht am Laptop die Taste `h` drücken. Es erscheint ein
-   QR-Code.
+   QR-Code. Lässt er sich nicht scannen (z. B. im Mac-Terminal oder in der
+   alten Windows-Konsole), öffnet die Taste `b` ihn als Bild in einem eigenen
+   Fenster.
 2. Den QR-Code mit der Handy-Kamera scannen. Im Browser öffnet sich die
    Fernbedienung und zeigt eine **vierstellige Zahl**.
-3. Am Laptop erscheint eine Anfrage mit einer Zahl. Stimmt sie mit dem Handy
-   überein, am Laptop `J` drücken.
+3. Am Laptop erscheint dieselbe Zahl groß in einem Rahmen. Stimmen beide
+   überein, am Laptop `J` drücken (sonst `N`).
 
 Fertig – das Handy zeigt jetzt die nächsten Einsätze mit Countdown und die
 gesendeten. Im Live-Betrieb muss jedes Senden am Handy **zweimal** angetippt

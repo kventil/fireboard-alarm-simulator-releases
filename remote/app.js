@@ -7,12 +7,18 @@ const DEFAULT_RELAY = "https://ntfy.sh";
 
 let keys, dev, relay;
 let paired = false;
+let connLost = false; // relay connection interrupted (EventSource reconnects by itself)
 let state = null; // latest state from the laptop
 let offset = 0; // phone clock minus laptop clock
 let lastSeen = 0; // when the last message arrived (phone time)
 let lastSeq = 0; // commands need increasing numbers, also across reloads
 let armedKey = null, armedUntil = 0; // LIVE: first tap arms, second sends
-const sentAt = new Map(); // button key -> time tapped; hides it until the laptop confirms
+
+// Commands waiting for the laptop to confirm them through a state change.
+// key -> { since, done(state) }. Their buttons show "Wird übertragen …" and
+// stay locked, so nobody taps twice because the answer takes a moment.
+const pendingCmds = new Map();
+const PENDING_TIMEOUT = 30000;
 
 // --- start ---------------------------------------------------------------
 
@@ -73,11 +79,15 @@ function deviceName() {
 function subscribe() {
   const es = new EventSource(`${relay}/${keys.topicDown}/sse`);
   es.onopen = () => {
+    connLost = false;
     if (!paired) status("Verbunden mit dem Relay, frage beim Laptop an …");
     post(fc.hello(keys, dev, deviceName()));
     if (!paired) showPairing();
   };
-  es.onerror = () => status("Verbindung unterbrochen – versuche es erneut …", true);
+  es.onerror = () => {
+    connLost = true;
+    status("Verbindung unterbrochen – versuche es erneut …", true);
+  };
   es.onmessage = async (ev) => {
     let m;
     try {
@@ -129,10 +139,15 @@ function handle(m) {
     case "state":
       state = m;
       offset = Date.now() - m.now;
+      for (const [key, p] of pendingCmds) if (p.done(state)) pendingCmds.delete(key);
       render();
       break;
     case "err":
-      if (m.id === dev.id) toast(m.msg);
+      if (m.id === dev.id) {
+        pendingCmds.clear(); // the refused command is no longer waiting
+        toast(m.msg);
+        render();
+      }
       break;
   }
 }
@@ -171,10 +186,28 @@ function fmt(ms) {
   return h > 0 ? `${h}:${String(mm).padStart(2, "0")}:${ss}` : `${mm}:${ss}`;
 }
 
+// expect records a command and what state change confirms it.
+function expect(key, done) {
+  pendingCmds.set(key, { since: Date.now(), done });
+  render();
+}
+
 function render() {
   if (!state || !paired) return;
-  if (Date.now() - lastSeen > 60000) {
+  for (const [key, p] of pendingCmds) {
+    if (Date.now() - p.since > PENDING_TIMEOUT) {
+      pendingCmds.delete(key);
+      toast("Keine Rückmeldung vom Laptop. Bitte dort prüfen, ob der Befehl angekommen ist, bevor du ihn wiederholst.");
+    }
+  }
+  if (connLost) {
+    status("Verbindung unterbrochen – versuche es erneut …", true);
+  } else if (Date.now() - lastSeen > 60000) {
     status("Seit über einer Minute keine Nachricht vom Laptop – läuft FAS noch?", true);
+  } else if (pendingCmds.size > 0) {
+    status("Befehl gesendet – warte auf Bestätigung vom Laptop …");
+  } else {
+    status("Verbunden. Befehle werden direkt an FAS geschickt.");
   }
   const mode = $("mode");
   mode.hidden = false;
@@ -184,7 +217,8 @@ function render() {
   $("clock").textContent = fmt(state.paused ? state.clock : laptopNow() - state.base);
   $("sent").textContent = `${state.sent} / ${state.total}`;
   $("flow").textContent = state.paused ? "Pausiert" : state.mode === "auto" ? "Automatisch" : "Von Hand";
-  $("pause").textContent = state.paused ? "Fortsetzen" : "Pause";
+  pendingButton($("pause"), "pause", state.paused ? "Fortsetzen" : "Pause");
+  pendingButton($("random"), "random", "Zufallsalarm");
   $("random").hidden = !state.random;
 
   const upcoming = [], done = [];
@@ -251,18 +285,27 @@ function el(tag, cls, text) {
   return e;
 }
 
+// pendingButton shows a static button (pause, random) as waiting or normal.
+function pendingButton(b, key, text) {
+  const waiting = pendingCmds.has(key);
+  b.disabled = waiting;
+  b.classList.toggle("pending", waiting);
+  b.textContent = waiting ? "Wird übertragen …" : text;
+}
+
 // button: in LIVE mode the first tap arms the button, the second sends.
-// After sending, the button stays disabled until the laptop reports a change
-// (at most 15 s), so a slow update cannot lead to a double send.
+// After sending, the button waits until the laptop reports the alarm's new
+// state, so a slow update cannot lead to a double send.
 function button(text, cmd, r, primary = false) {
   const b = document.createElement("button");
-  const key = cmd + ":" + r.u + ":" + r.s + ":" + (r.upd || "");
+  const key = cmd + ":" + r.u;
   b.type = "button";
   b.textContent = text;
   if (primary) b.className = "primary";
-  if (Date.now() - (sentAt.get(key) || 0) < 15000) {
+  if (pendingCmds.has(key)) {
     b.disabled = true;
-    b.textContent = "Gesendet …";
+    b.className = "pending";
+    b.textContent = "Wird übertragen …";
     return b;
   }
   if (key === armedKey && Date.now() < armedUntil) arm(b);
@@ -274,9 +317,12 @@ function button(text, cmd, r, primary = false) {
       return;
     }
     armedKey = null;
-    sentAt.set(key, Date.now());
+    const before = r.s + "|" + (r.upd || "");
     send(cmd, r.u);
-    render();
+    expect(key, (st) => {
+      const now = (st.rows || []).find((x) => x.u === r.u);
+      return !now || now.s + "|" + (now.upd || "") !== before;
+    });
   };
   return b;
 }
@@ -287,7 +333,17 @@ function arm(b) {
   b.textContent = "Wirklich?";
 }
 
-$("pause").onclick = () => paired && send("pause");
-$("random").onclick = () => paired && send("random");
+$("pause").onclick = () => {
+  if (!paired || !state || pendingCmds.has("pause")) return;
+  const wasPaused = state.paused;
+  send("pause");
+  expect("pause", (st) => st.paused !== wasPaused);
+};
+$("random").onclick = () => {
+  if (!paired || !state || pendingCmds.has("random")) return;
+  const total = state.total;
+  send("random");
+  expect("random", (st) => st.total > total);
+};
 
 main().catch((e) => status("Fehler: " + e.message, true));
