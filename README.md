@@ -3,7 +3,7 @@
 **Übungsalarme für Fireboard – einfach aus einer Excel-Liste.**
 
 **[Neueste Version herunterladen](https://github.com/kventil/fireboard-alarm-simulator-releases/releases/latest)**
-für Windows und Mac
+für Windows und Mac · Website: [fireboard-simulator.de](http://fireboard-simulator.de/)
 
 Du planst eine Übung für deine Feuerwehr, zum Beispiel eine Unwetterlage mit
 vielen Einsätzen gleichzeitig? FAS spielt dabei die **Leitstelle**: Es schickt
