@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Anleitung
+    url: https://github.com/kventil/fireboard-alarm-simulator-releases#readme
+    about: Viele Fragen beantwortet die Anleitung, besonders „Häufige Fragen“.

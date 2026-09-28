@@ -3,7 +3,7 @@
 **Übungsalarme für Fireboard – einfach aus einer Excel-Liste.**
 
 **[Neueste Version herunterladen](https://github.com/kventil/fireboard-alarm-simulator-releases/releases/latest)**
-für Windows und Mac · Website: [fireboard-simulator.de](http://fireboard-simulator.de/)
+für Windows und Mac · Website: [fireboard-simulator.de](https://fireboard-simulator.de/)
 
 Du planst eine Übung für deine Feuerwehr, zum Beispiel eine Unwetterlage mit
 vielen Einsätzen gleichzeitig? FAS spielt dabei die **Leitstelle**: Es schickt
@@ -355,6 +355,13 @@ Zwischenzeit normal weiter.
 Im Fireboard-Portal unter *Alarmeingang* nachsehen. Dort lassen sich die
 Testalarme nach der Übung auch gesammelt löschen.
 
+## Feedback
+
+Fehler gefunden oder eine Idee? Schreib es als
+[Issue auf GitHub](https://github.com/kventil/fireboard-alarm-simulator-releases/issues/new/choose)
+(dafür brauchst du ein kostenloses GitHub-Konto). Issues sind öffentlich –
+bitte nie den AuthKey mitschicken.
+
 ---
 
 ## Mac
@@ -403,7 +410,7 @@ Startbildschirm zeigt zu den gewählten Einstellungen den passenden Befehl an.
 | `-resume` / `-fresh` | Eine unterbrochene Übung ohne Nachfrage fortsetzen bzw. neu beginnen |
 | `-keyfile datei` | AuthKey aus einer Textdatei lesen statt als Parameter, siehe unten |
 | `-relay url` | Fernbedienung: eigenen ntfy-Server statt `https://ntfy.sh` verwenden |
-| `-remote-page url` | Fernbedienung: eigene Adresse der Steuerseite statt der GitHub-Pages-Seite |
+| `-remote-page url` | Fernbedienung: eigene Adresse der Steuerseite statt `https://fireboard-simulator.de/remote/` |
 | `FAS_URL` | Umgebungsvariable, ersetzt `https://login.fireboard.net/api` (z. B. für einen Testserver) |
 
 Weitere Tasten: `j` `k` (wie `↑` `↓`), `g` / `G` (zum ersten / letzten Alarm),

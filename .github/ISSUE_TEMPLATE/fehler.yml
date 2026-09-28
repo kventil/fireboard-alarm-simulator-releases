@@ -1,0 +1,44 @@
+name: Fehler melden
+description: Etwas funktioniert nicht wie erwartet.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Danke fürs Melden! Bitte beachte: **Alles hier ist öffentlich.**
+        Keinen AuthKey, keine echten Namen oder Telefonnummern und keine
+        Screenshots, auf denen der AuthKey zu sehen ist.
+  - type: input
+    id: version
+    attributes:
+      label: FAS-Version
+      description: Steht oben im Startbildschirm, z. B. v2.0.0.
+    validations:
+      required: true
+  - type: dropdown
+    id: system
+    attributes:
+      label: System
+      options:
+        - Windows 11
+        - Windows 10
+        - Mac mit Apple-Chip
+        - Mac mit Intel-Prozessor
+    validations:
+      required: true
+  - type: textarea
+    id: was
+    attributes:
+      label: Was ist passiert?
+      description: Was hast du gemacht, und was ist dann passiert? Fehlermeldungen gerne abschreiben.
+    validations:
+      required: true
+  - type: textarea
+    id: erwartet
+    attributes:
+      label: Was hättest du erwartet?
+  - type: textarea
+    id: handy
+    attributes:
+      label: Nur bei Problemen mit der Fernbedienung
+      description: Welches Handy und welcher Browser? Welche Versionen stehen unten auf der Steuerseite?

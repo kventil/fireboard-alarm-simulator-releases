@@ -1,0 +1,20 @@
+name: Idee oder Wunsch
+description: Etwas fehlt, oder es könnte einfacher gehen.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **Alles hier ist öffentlich** – bitte keinen AuthKey und keine echten
+        Namen oder Telefonnummern.
+  - type: textarea
+    id: idee
+    attributes:
+      label: Was wünschst du dir?
+    validations:
+      required: true
+  - type: textarea
+    id: wofuer
+    attributes:
+      label: Wofür brauchst du das?
+      description: Zum Beispiel, wie eure Übung abläuft und wo es gerade hakt.
