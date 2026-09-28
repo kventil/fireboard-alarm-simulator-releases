@@ -8,8 +8,14 @@ die Einsätze aus deiner Excel-Liste in euren **Fireboard-Alarmeingang** – nac
 und nach, zu festen Zeiten oder auf Knopfdruck. Eure Führungskräfte arbeiten sie
 in Fireboard ab wie echte Einsätze.
 
+**Steuern per Handy:** Die Übungsleitung muss nicht am Laptop bleiben. QR-Code
+scannen, und das Handy wird zur Fernbedienung – Alarme senden, Lage ändern,
+pausieren, von überall mit Internet. Keine App, Ende-zu-Ende verschlüsselt.
+Mehr unter [Handy als Fernbedienung](#handy-als-fernbedienung).
+
 ```mermaid
 flowchart LR
+    H["Handy<br/>Fernbedienung"] -.->|steuert| B
     A["Excel-Liste<br/>mit Übungseinsätzen"] --> B["FAS<br/>bei der Übungsleitung"]
     B -- "Testalarme" --> C["Fireboard<br/>Alarmeingang"]
     C --> D["Fireboard Suite<br/>Einsatzleitung"]
@@ -22,6 +28,7 @@ die Einsätze landen nur im Alarmeingang von Fireboard.
 
 ## Was FAS kann
 
+- **Fernbedienung per Handy** – Übung vom Handy aus steuern, auch unterwegs, ohne App
 - **Alarme automatisch verteilen** – z. B. 4 Einsätze alle 10 Minuten zu zufälligen Zeitpunkten
 - **Drehbuch** – bestimmte Einsätze zu festen Zeiten („nach 20 Minuten brennt die Scheune“)
 - **Von Hand** – die Übungsleitung schickt jeden Einsatz selbst ab
@@ -30,7 +37,6 @@ die Einsätze landen nur im Alarmeingang von Fireboard.
 - **Testlauf** – alles ausprobieren, ohne dass etwas gesendet wird
 - **Protokoll** – jede Meldung mit Uhrzeit, für die Nachbesprechung
 - **Fortsetzen** – Laptop ausgegangen? Die Übung geht dort weiter, wo sie aufgehört hat
-- **Fernbedienung per Handy** – Alarme vom Handy aus senden, auch unterwegs, ohne App
 
 ## Was du brauchst
 
@@ -355,7 +361,7 @@ Die Datei `…-macos-arm64.zip` (Mac mit Apple-Chip, M1 und neuer) bzw.
 *Terminal* die Download-Sperre entfernen und FAS starten:
 
 ```
-cd ~/Downloads/fireboard-alarm-simulator-1.2.0-macos-arm64
+cd ~/Downloads/fireboard-alarm-simulator-2.0.0-macos-arm64
 xattr -d com.apple.quarantine fas
 ./fas
 ```
@@ -578,7 +584,7 @@ flowchart LR
   keine Router-Einstellung; es funktioniert im WLAN, über Mobilfunk und am
   Hotspot.
 - **Versionen:** Die Steuerseite zeigt unten ihre Version und die von FAS
-  („Steuerseite v1.5.0 · FAS v1.5.0“), am Laptop steht die Version der Seite
+  („Steuerseite v2.0.0 · FAS v2.0.0“), am Laptop steht die Version der Seite
   jedes verbundenen Handys. Die Seite bietet nur Befehle an, die die
   FAS-Version am Laptop kennt. Ist die Seite zu alt, erscheint der Hinweis,
   sie neu zu laden.
