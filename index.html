@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fireboard Alarm Simulator</title>
+<meta name="description" content="Übungsalarme für Fireboard aus einer Excel-Liste. Für Windows und Mac.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <a class="name" href="./">Fireboard Alarm Simulator</a>
+  <nav>
+    <a href="#ablauf">Ablauf</a>
+    <a href="#handy">Handy</a>
+    <a href="#fragen">Fragen</a>
+    <a href="https://github.com/kventil/fireboard-alarm-simulator-releases#readme">Anleitung</a>
+  </nav>
+</header>
+
+<main>
+
+<h1>Übungsalarme für Fireboard – aus einer Excel-Liste.</h1>
+
+<p>
+Du planst eine Übung für deine Feuerwehr, zum Beispiel eine Unwetterlage mit
+vielen Einsätzen gleichzeitig? Der Fireboard Alarm Simulator (FAS) spielt dabei
+die Leitstelle: Er schickt die Einsätze aus deiner Excel-Liste in euren
+Fireboard-Alarmeingang – nach und nach, zu festen Zeiten oder auf Knopfdruck.
+Eure Führungskräfte arbeiten sie in Fireboard ab wie echte Einsätze.
+</p>
+
+<p class="download">
+  <a href="https://github.com/kventil/fireboard-alarm-simulator-releases/releases/latest">Neueste Version herunterladen</a>
+  <span>Windows 10/11 und Mac · kostenlos · keine Installation</span>
+</p>
+
+<figure>
+  <img src="docs/images/uebung.png" width="1600" height="739" alt="Übungsansicht während einer laufenden Übung">
+  <figcaption>Die Übungsansicht: welche Einsätze raus sind, welcher als Nächstes kommt.</figcaption>
+</figure>
+
+<p class="note">
+Alle Alarme sind in Fireboard als <b>Testalarme</b> gekennzeichnet. FAS
+alarmiert keine Einsatzkräfte – kein Piepser, keine SMS, keine App. Die
+Einsätze landen nur im Alarmeingang.
+</p>
+
+<h2>Was FAS kann</h2>
+
+<dl class="features">
+  <dt>Automatisch verteilen</dt>
+  <dd>Zum Beispiel 4 Einsätze alle 10 Minuten, jeweils zu zufälligen Zeitpunkten.</dd>
+  <dt>Drehbuch</dt>
+  <dd>Bestimmte Einsätze zu festen Zeiten – „nach 20 Minuten brennt die Scheune“.</dd>
+  <dt>Von Hand</dt>
+  <dd>Die Übungsleitung schickt jeden Einsatz selbst ab und reagiert auf die Lage.</dd>
+  <dt>Lageänderungen</dt>
+  <dd>Ein Einsatz verschärft sich im Lauf der Übung, etwa von B2 auf B3.</dd>
+  <dt>Zufallsalarme</dt>
+  <dd>FAS würfelt Einsätze aus einer Stichwort- und einer Adressliste zusammen. Die Scheune brennt auf einem Hof, der Baum liegt auf einer Straße.</dd>
+  <dt>Handy als Fernbedienung</dt>
+  <dd>QR-Code scannen und die Übung vom Handy aus steuern. Ohne App.</dd>
+  <dt>Testlauf</dt>
+  <dd>Alles ausprobieren, ohne dass etwas an Fireboard gesendet wird.</dd>
+  <dt>Protokoll</dt>
+  <dd>Jede Meldung mit Uhrzeit als CSV-Datei – für die Nachbesprechung.</dd>
+  <dt>Fortsetzen</dt>
+  <dd>Laptop ausgegangen? Die Übung geht dort weiter, wo sie aufgehört hat.</dd>
+</dl>
+
+<h2>Was du brauchst</h2>
+
+<ul>
+  <li>einen Laptop oder PC mit Windows 10/11 oder einen Mac</li>
+  <li>ein Fireboard-Konto mit dem Modul <i>Alarmverarbeitung</i> und den
+    dazugehörigen AuthKey (Fireboard-Portal → <i>Benutzerkonto →
+    AuthKey-Verwaltung</i>, Eintrag „Alarmverarbeitung PLUS“)</li>
+  <li>eine Excel-Liste mit deinen Übungseinsätzen – zwei Beispiele sind dabei</li>
+</ul>
+
+<h2 id="ablauf">So läuft es ab</h2>
+
+<ol class="steps">
+  <li>
+    <h3>Herunterladen und entpacken</h3>
+    <p>Auf der <a href="https://github.com/kventil/fireboard-alarm-simulator-releases/releases/latest">Download-Seite</a>
+    die Zip-Datei für dein System laden und entpacken. Darin liegen das
+    Programm, zwei Beispiel-Listen und die Anleitung.</p>
+  </li>
+  <li>
+    <h3>Starten und Liste wählen</h3>
+    <p>Doppelklick auf <code>fas.exe</code>. Mit den Pfeiltasten die
+    Excel-Liste auswählen, dann <kbd>Enter</kbd>. Eigene Listen einfach in
+    denselben Ordner legen.</p>
+    <img src="docs/images/start-datei.png" width="1600" height="644" alt="Startbildschirm: Alarmliste wählen" loading="lazy">
+  </li>
+  <li>
+    <h3>Einstellen</h3>
+    <p>Testlauf oder live, von Hand oder automatisch, wie viele
+    Zufallsalarme. Beim ersten Mal auf <b>Testlauf</b> lassen – dann kommt
+    in Fireboard nichts an.</p>
+    <img src="docs/images/start-einstellungen.png" width="1600" height="759" alt="Startbildschirm: Einstellungen" loading="lazy">
+  </li>
+  <li>
+    <h3>Übung live</h3>
+    <p>Für die echte Übung <b>Live</b> wählen und den AuthKey eingeben. Der
+    Key wird nicht gespeichert und bei jedem Start neu abgefragt.</p>
+  </li>
+  <li>
+    <h3>Aufräumen</h3>
+    <p>Nach der Übung schließt <kbd>C</kbd> <kbd>C</kbd> alle gesendeten
+    Einsätze in Fireboard. Neben der Excel-Liste liegt ein Protokoll mit
+    jeder Meldung, Uhrzeit und Übungszeit.</p>
+  </li>
+</ol>
+
+<h2>Die Excel-Liste</h2>
+
+<p>
+Jede Zeile ist ein Einsatz, in der ersten Zeile stehen die Spaltennamen. Am
+einfachsten nimmst du eine der Beispiel-Listen und änderst sie ab.
+</p>
+
+<div class="table">
+<table>
+  <thead>
+    <tr><th>externalNumber</th><th>keyword</th><th>announcement</th><th>location</th><th>situation</th></tr>
+  </thead>
+  <tbody>
+    <tr><td>UEB-001</td><td>H1 - Unwetter/Baum</td><td>ÜBUNG - Baum auf Fahrbahn</td><td>Brochterbecker Straße 40, 49545 Tecklenburg</td><td>Baum liegt quer über beide Fahrstreifen</td></tr>
+    <tr><td>UEB-002</td><td>H0 - Unwetter/Wasser</td><td>ÜBUNG - Wasser im Keller</td><td>Markt 5, 49545 Tecklenburg</td><td>ca. 20 cm Wasser im Keller</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>
+Weitere Spalten gibt es für Meldende, Koordinaten, feste Zeiten
+(<code>zeitpunkt</code>) und Lageänderungen (<code>update_keyword</code>,
+<code>update_situation</code>, <code>update_after</code>). Alle stehen in der
+<a href="https://github.com/kventil/fireboard-alarm-simulator-releases#alle-spalten">Spaltenübersicht</a>.
+</p>
+
+<h2 id="handy">Handy als Fernbedienung</h2>
+
+<div class="split">
+  <div>
+    <p>
+    Die Übungsleitung muss nicht am Laptop sitzen. Mit dem Handy lassen sich
+    Alarme senden, Lageänderungen auslösen, Einsätze schließen und die Übung
+    pausieren – von überall, wo das Handy Internet hat.
+    </p>
+    <ol>
+      <li>Am Laptop <kbd>h</kbd> drücken, es erscheint ein QR-Code.</li>
+      <li>Mit der Handy-Kamera scannen. Die Fernbedienung öffnet sich im Browser und zeigt eine vierstellige Zahl.</li>
+      <li>Stimmt die Zahl mit der am Laptop überein, dort <kbd>J</kbd> drücken.</li>
+    </ol>
+    <p>
+    Die Verbindung ist Ende-zu-Ende verschlüsselt. Ein Handy darf erst
+    steuern, wenn es am Laptop freigegeben wurde, und sieht den AuthKey nie.
+    Im Live-Betrieb muss jeder Alarm zweimal angetippt werden, damit nichts
+    aus Versehen rausgeht.
+    </p>
+  </div>
+  <img src="docs/images/handy.png" width="323" height="700" alt="Fernbedienung auf dem Handy" loading="lazy">
+</div>
+
+<h2 id="fragen">Häufige Fragen</h2>
+
+<details>
+  <summary>Werden unsere Einsatzkräfte alarmiert?</summary>
+  <p>Nein. FAS schickt die Einsätze nur in den Fireboard-Alarmeingang. Piepser,
+  Sirene, SMS oder Alarmierungs-Apps werden nicht ausgelöst.</p>
+</details>
+
+<details>
+  <summary>Sieht man in Fireboard, dass es eine Übung ist?</summary>
+  <p>Ja, alle Alarme sind als Testalarme gekennzeichnet. Zusätzlich empfehlen
+  wir, im Alarmtext „ÜBUNG“ voranzustellen – wie in den Beispiel-Listen.</p>
+</details>
+
+<details>
+  <summary>Wird mein AuthKey gespeichert?</summary>
+  <p>Nein, nie. Du gibst ihn bei jedem Start ein. Wer das nicht jedes Mal
+  möchte, kann ihn in eine Datei legen – siehe
+  <a href="https://github.com/kventil/fireboard-alarm-simulator-releases#authkey-aus-einer-datei">AuthKey aus einer Datei</a>.</p>
+</details>
+
+<details>
+  <summary>Der Laptop ist mitten in der Übung ausgegangen.</summary>
+  <p>Einfach FAS wieder starten. Es fragt „Letzte Übung fortsetzen?“ – mit
+  <kbd>J</kbd> geht es dort weiter, wo es aufgehört hat. Schon gesendete
+  Einsätze werden nicht noch einmal geschickt.</p>
+</details>
+
+<details>
+  <summary>Windows warnt beim ersten Start.</summary>
+  <p>„Der Computer wurde durch Windows geschützt“ ist bei neuen Programmen
+  normal. Auf <i>Weitere Informationen</i> → <i>Trotzdem ausführen</i>
+  klicken.</p>
+</details>
+
+<details>
+  <summary>Wie starte ich FAS auf dem Mac?</summary>
+  <p>Die Zip-Datei für Apple-Chip (<code>macos-arm64</code>) oder Intel
+  (<code>macos-intel</code>) laden und entpacken. Beim ersten Mal im
+  Terminal die Download-Sperre entfernen:</p>
+  <pre>cd ~/Downloads/fireboard-alarm-simulator-…-macos-arm64
+xattr -d com.apple.quarantine fas
+./fas</pre>
+  <p>Danach genügt ein Doppelklick auf <code>fas</code> im Finder.</p>
+</details>
+
+<details>
+  <summary>Fehler 401</summary>
+  <p>Der AuthKey ist falsch, oder das Modul Alarmverarbeitung ist für euer
+  Konto nicht freigeschaltet. Den Key im Fireboard-Portal prüfen.</p>
+</details>
+
+<p>
+Alles Weitere – Tasten, alle Spalten, Zufallsalarme einrichten, Protokoll,
+Fehlermeldungen – steht in der
+<a href="https://github.com/kventil/fireboard-alarm-simulator-releases#readme">vollständigen Anleitung</a>.
+</p>
+
+</main>
+
+<footer>
+  <p>
+  Fireboard Alarm Simulator ·
+  <a href="https://github.com/kventil/fireboard-alarm-simulator-releases/releases">Alle Versionen</a> ·
+  <a href="https://github.com/kventil/fireboard-alarm-simulator-releases#readme">Anleitung</a>
+  </p>
+</footer>
+
+</body>
+</html>
