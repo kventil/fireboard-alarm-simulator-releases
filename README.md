@@ -360,7 +360,8 @@ Testalarme nach der Übung auch gesammelt löschen.
 Fehler gefunden oder eine Idee? Schreib es als
 [Issue auf GitHub](https://github.com/kventil/fireboard-alarm-simulator-releases/issues/new/choose)
 (dafür brauchst du ein kostenloses GitHub-Konto). Issues sind öffentlich –
-bitte nie den AuthKey mitschicken.
+bitte nie den AuthKey mitschicken. Ohne GitHub-Konto: die E-Mail-Adresse steht
+auf der [Website](https://fireboard-simulator.de/#kontakt).
 
 ---
 

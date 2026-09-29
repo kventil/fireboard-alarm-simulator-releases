@@ -239,6 +239,11 @@ Fehler gefunden oder eine Idee? Schreib es als
 bitte nie den AuthKey mitschicken.
 </p>
 
+<p id="kontakt">
+Ohne GitHub-Konto geht es auch per E-Mail:
+<span class="mail" data-m="ed.rotalumis-draoberif|trebor">robert<span class="x">.entfernen</span>@<span class="x">nicht-</span>fireboard-simulator.de</span>
+</p>
+
 </main>
 
 <footer>
@@ -254,6 +259,19 @@ bitte nie den AuthKey mitschicken.
   <a href="https://fireboard.net/">fireboard.net</a>.
   </p>
 </footer>
+
+<script>
+// Spam protection for the e-mail address. The page source does not contain
+// it in one piece: without JavaScript, decoy parts hidden by CSS keep it from
+// harvesters; with JavaScript it is put together here as a mailto link.
+for (const el of document.querySelectorAll(".mail[data-m]")) {
+  const [domain, user] = el.dataset.m.split("|").map(s => [...s].reverse().join(""));
+  const a = document.createElement("a");
+  a.href = "mailto:" + user + "\u0040" + domain;
+  a.textContent = user + "\u0040" + domain;
+  el.replaceWith(a);
+}
+</script>
 
 </body>
 </html>

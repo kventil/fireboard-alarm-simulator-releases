@@ -150,3 +150,5 @@ footer a { color: var(--dim); }
 
 .small { color: var(--dim); font-size: .9rem; }
 .small a { color: var(--dim); }
+
+.mail .x { display: none; }

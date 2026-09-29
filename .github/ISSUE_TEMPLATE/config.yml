@@ -3,3 +3,6 @@ contact_links:
   - name: Anleitung
     url: https://github.com/kventil/fireboard-alarm-simulator-releases#readme
     about: Viele Fragen beantwortet die Anleitung, besonders „Häufige Fragen“.
+  - name: Ohne GitHub-Konto
+    url: https://fireboard-simulator.de/#kontakt
+    about: Die E-Mail-Adresse steht auf der Website.
