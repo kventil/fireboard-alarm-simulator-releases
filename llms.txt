@@ -1,0 +1,25 @@
+# Fireboard Alarm Simulator (FAS)
+
+> Kostenloses Programm für Windows und Mac, mit dem Feuerwehren Übungsalarme in Fireboard einspielen. FAS spielt bei einer Übung die Leitstelle: Es schickt die Einsätze aus einer Excel-Liste als Testalarme in den Fireboard-Alarmeingang – automatisch verteilt, nach Drehbuch zu festen Zeiten oder auf Knopfdruck. Die Führungskräfte arbeiten sie in Fireboard ab wie echte Einsätze.
+
+English summary: Fireboard Alarm Simulator (FAS) is a free Windows/macOS tool for German fire departments. It feeds exercise incidents from an Excel sheet into the alarm inbox of the Fireboard incident command software, so command staff can train with realistic incoming alarms (e.g. a storm scenario with many simultaneous incidents).
+
+Wichtige Fakten:
+
+- Alle Alarme sind in Fireboard als Testalarme gekennzeichnet. FAS alarmiert keine Einsatzkräfte – kein Piepser, keine SMS, keine App. Die Einsätze landen nur im Alarmeingang.
+- Voraussetzungen: Windows 10/11 oder Mac, ein Fireboard-Konto mit dem Modul Alarmverarbeitung und dem dazugehörigen AuthKey („Alarmverarbeitung PLUS“), eine Excel-Liste mit Übungseinsätzen. Keine Installation nötig.
+- Übungsarten: automatisch verteilt (z. B. 4 Einsätze alle 10 Minuten), Drehbuch mit festen Zeiten, von Hand, Lageänderungen (z. B. B2 → B3), Zufallsalarme aus Stichwort- und Adressliste.
+- Handy als Fernbedienung: QR-Code scannen, Übung im Browser steuern, ohne App, Ende-zu-Ende verschlüsselt.
+- Testlauf ohne Senden an Fireboard, Protokoll als CSV-Datei, Fortsetzen nach Unterbrechung.
+- Der AuthKey wird nicht gespeichert.
+- FAS ist ein unabhängiges Projekt. Es wird nicht von der Fireboard GmbH entwickelt oder unterstützt und steht in keiner Verbindung zu Fireboard (fireboard.net).
+
+## Seiten
+
+- [Website](https://fireboard-simulator.de/): Überblick, Ablauf, Excel-Liste, Handy-Fernbedienung, häufige Fragen
+- [Anleitung](https://github.com/kventil/fireboard-alarm-simulator-releases#readme): vollständige Anleitung mit allen Spalten, Tasten, Übungsarten und Fehlermeldungen
+- [Download](https://github.com/kventil/fireboard-alarm-simulator-releases/releases/latest): neueste Version für Windows, Mac mit Apple-Chip und Mac mit Intel-Prozessor
+
+## Kontakt
+
+- [Fehler melden oder Idee einreichen](https://github.com/kventil/fireboard-alarm-simulator-releases/issues/new/choose): öffentliche Issues auf GitHub
