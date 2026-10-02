@@ -5,6 +5,8 @@
   --line: #ddddd6;
   --code: #efefea;
   --accent: #b8330b;
+  --beta: #8a5a00;
+  --stable: #2a7a35;
   color-scheme: light dark;
 }
 @media (prefers-color-scheme: dark) {
@@ -15,6 +17,8 @@
     --line: #333;
     --code: #242424;
     --accent: #ff8a3d;
+    --beta: #f0b84a;
+    --stable: #6cc070;
   }
 }
 
@@ -149,7 +153,28 @@ footer {
 footer a { color: var(--dim); }
 
 .versions h3 { margin-top: 1.5rem; }
-.versions h3 span { color: var(--dim); font-size: .9rem; font-weight: 400; margin-left: .4rem; }
+.versions h3 .date { color: var(--dim); font-size: .9rem; font-weight: 400; margin-left: .4rem; }
+.versions section.beta {
+  border: 1px dashed var(--beta);
+  border-radius: 6px;
+  padding: 0 1rem;
+  margin: 1.5rem 0;
+}
+.versions section.beta h3 { margin-top: 1rem; }
+
+.badge {
+  display: inline-block;
+  border: 1px solid currentColor;
+  border-radius: 999px;
+  padding: .05rem .55rem;
+  font-size: .75rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+.badge.beta { color: var(--beta); }
+.badge.stable { color: var(--stable); }
 
 .small { color: var(--dim); font-size: .9rem; }
 .small a { color: var(--dim); }
