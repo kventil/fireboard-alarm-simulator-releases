@@ -11,7 +11,7 @@ Wichtige Fakten:
 - Übungsarten: automatisch verteilt (z. B. 4 Einsätze alle 10 Minuten), Drehbuch mit festen Zeiten, von Hand, Lageänderungen (z. B. B2 → B3), Zufallsalarme aus Stichwort- und Adressliste.
 - Handy als Fernbedienung: QR-Code scannen, Übung im Browser steuern, ohne App, Ende-zu-Ende verschlüsselt.
 - Testlauf ohne Senden an Fireboard, Protokoll als CSV-Datei, Fortsetzen nach Unterbrechung.
-- Der AuthKey wird nicht gespeichert.
+- Der AuthKey wird nur auf Wunsch gespeichert, dann verschlüsselt durch das Betriebssystem (Windows-Benutzerkonto bzw. Mac-Schlüsselbund).
 - FAS ist ein unabhängiges Projekt. Es wird nicht von der Fireboard GmbH entwickelt oder unterstützt und steht in keiner Verbindung zu Fireboard (fireboard.net).
 
 ## Seiten

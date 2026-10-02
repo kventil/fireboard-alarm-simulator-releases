@@ -111,7 +111,9 @@ kommt nichts an. Beenden mit `q`.
 FAS noch einmal starten, bei *Senden* **Live** wählen und `Enter`. Jetzt fragt
 FAS nach dem **AuthKey**: eintippen oder mit Rechtsklick / `Strg+V` einfügen,
 dann `Enter`. Der Key wird **nicht gespeichert** und bei jedem Start neu
-abgefragt.
+abgefragt – außer du setzt mit `Tab` das Häkchen bei *AuthKey speichern*. Dann
+legt FAS ihn geschützt auf diesem Computer ab und fragt beim nächsten Mal nicht
+mehr (siehe [AuthKey speichern](#authkey-speichern)).
 
 ![Startbildschirm: AuthKey eingeben](docs/images/start-authkey.png)
 
@@ -307,7 +309,8 @@ Details unter [Fernbedienung: Technik und Sicherheit](#fernbedienung-technik-und
 
 - **Einsätze schließen:** `C` zweimal drücken. Oder später FAS starten und im
   Startbildschirm *Was tun?* → **Alle Alarme der Datei schließen** wählen. Die
-  Einsätze verschwinden dann von den Fireboard-Geräten.
+  Einsätze verschwinden dann von den Fireboard-Geräten. Geschlossen wird, was
+  laut Protokoll noch offen ist – auch aus früheren Übungen mit dieser Liste.
 - **Nachbesprechung:** Neben der Excel-Liste liegt jetzt eine Datei
   `…_protokoll.csv`. Mit Excel öffnen – dort steht jede gesendete Meldung mit
   Uhrzeit, Übungszeit und Ergebnis.
@@ -325,8 +328,9 @@ Ja, alle Alarme sind als Testalarme gekennzeichnet. Zusätzlich empfehlen wir,
 im Alarmtext „ÜBUNG“ voranzustellen – wie in den Beispiel-Listen.
 
 **Wird mein AuthKey gespeichert?**
-Nein, nie. Du gibst ihn bei jedem Start ein. Wer das nicht jedes Mal möchte,
-kann ihn in eine Datei legen – siehe [AuthKey aus einer Datei](#authkey-aus-einer-datei).
+Nur, wenn du es willst. Ohne dein Zutun gibst du ihn bei jedem Start ein. Auf
+Wunsch speichert FAS ihn verschlüsselt auf deinem Computer – siehe
+[AuthKey speichern](#authkey-speichern).
 
 **Der Laptop ist mitten in der Übung ausgegangen.**
 Einfach FAS wieder starten. Es fragt „Letzte Übung fortsetzen?“ – mit `J` geht
@@ -397,6 +401,7 @@ fas [optionen] -keyfile <datei> <exceldatei> [<intervall-sek> <alarme-pro-interv
 
 Mit Excel-Datei und AuthKey startet FAS direkt ohne Startbildschirm. Der
 Startbildschirm zeigt zu den gewählten Einstellungen den passenden Befehl an.
+Optionen dürfen vor oder hinter der Excel-Datei stehen.
 
 | Parameter | Bedeutung |
 |---|---|
@@ -405,11 +410,15 @@ Startbildschirm zeigt zu den gewählten Einstellungen den passenden Befehl an.
 | `intervall-sek` `alarme-pro-intervall` | Optional. Z. B. `600 4`: 4 Alarme je 600 Sekunden zu zufälligen Zeitpunkten. Ohne diese Angaben: manueller Modus |
 | `-plain` | Einfache Textausgabe statt Oberfläche (automatischer Modus oder Drehbuch). Wird automatisch verwendet, wenn die Ausgabe umgeleitet wird |
 | `-xml` | Alarme im XML-Format senden statt JSON |
-| `-close` | Alle Alarme der Excel-Datei in Fireboard schließen und beenden |
+| `-close` | Alle laut Protokoll noch offenen Alarme der Excel-Datei in Fireboard schließen und beenden |
 | `-random anzahl` | So viele Zufallsalarme erzeugen und an die Alarme der Tabelle anhängen |
 | `-seed n` | Startwert für Zufallsalarme: gleicher Seed = gleiche Übung. Ohne Angabe zufällig; der verwendete Seed steht im Kopf der Oberfläche |
 | `-resume` / `-fresh` | Eine unterbrochene Übung ohne Nachfrage fortsetzen bzw. neu beginnen |
 | `-keyfile datei` | AuthKey aus einer Textdatei lesen statt als Parameter, siehe unten |
+| `-savekey` | Den AuthKey (Parameter, `-keyfile` oder Eingabe im Startbildschirm) geschützt auf diesem Computer speichern |
+| `-storedkey` | Den gespeicherten AuthKey verwenden statt ihn als Parameter anzugeben |
+| `-forgetkey` | Den gespeicherten AuthKey löschen und beenden |
+| `-diagnose` | Angaben für die Fehlersuche in `fas_diagnose.txt` schreiben, siehe [Diagnose](#diagnose) |
 | `-relay url` | Fernbedienung: eigenen ntfy-Server statt `https://ntfy.sh` verwenden |
 | `-remote-page url` | Fernbedienung: eigene Adresse der Steuerseite statt `https://fireboard-simulator.de/remote/` |
 | `FAS_URL` | Umgebungsvariable, ersetzt `https://login.fireboard.net/api` (z. B. für einen Testserver) |
@@ -418,11 +427,46 @@ Weitere Tasten: `j` `k` (wie `↑` `↓`), `g` / `G` (zum ersten / letzten Alarm
 `s` (wie `Enter`), `p` (wie Leertaste), `Entf` (wie `d`). Mit `Enter` lässt
 sich ein bereits gesendeter Alarm erneut senden.
 
+### AuthKey speichern
+
+Von sich aus speichert FAS den AuthKey nicht. Für wiederkehrende Übungen kann
+es ihn auf dem Computer ablegen – nie im Klartext, sondern geschützt durch das
+Betriebssystem:
+
+- **Windows:** verschlüsselt mit der Windows-Datenschutz-API (DPAPI). Der
+  Schlüssel dafür hängt am Windows-Benutzerkonto; die Datei
+  `%AppData%\FAS\authkey.dpapi` ist für andere Benutzer und auf anderen
+  Computern nicht lesbar.
+- **Mac:** im Schlüsselbund (Eintrag `fireboard-alarm-simulator`).
+
+Speichern: im Startbildschirm bei der Eingabe des AuthKey mit `Tab` das Häkchen
+*AuthKey speichern* setzen, oder einmalig per Befehl:
+
+```
+fas -savekey alarmdaten.xlsx <authkey>        # speichert und startet
+fas -savekey -keyfile key.txt                 # übernimmt den Key aus einer Datei
+```
+
+Verwenden: Der Startbildschirm findet den gespeicherten Key von selbst und
+fragt bei *Live* nicht mehr nach; dort lässt er sich auch durch einen neuen
+ersetzen (*AuthKey* → *Neu eingeben*). Im Befehl steht `-storedkey` an Stelle
+des Keys:
+
+```
+fas -storedkey alarmdaten.xlsx 600 4          # startet direkt
+fas -forgetkey                                # löscht den gespeicherten Key
+```
+
+Der Schutz gilt gegenüber anderen Benutzern, Kopien und Backups des Ordners.
+Programme, die unter deinem eigenen Benutzerkonto laufen, können den Key
+entschlüsseln – wie bei jedem gespeicherten Passwort. Auf gemeinsam genutzten
+Konten den Key deshalb nicht speichern.
+
 ### AuthKey aus einer Datei
 
-FAS speichert den AuthKey nie. Für wiederkehrende Übungen kann er in eine
-Textdatei geschrieben werden (erste Zeile, z. B. `key.txt`) und mit `-keyfile`
-übergeben werden – dann taucht er weder im Befehl noch in der Eingabe auf:
+Alternativ kann der AuthKey in eine Textdatei geschrieben werden (erste Zeile,
+z. B. `key.txt`) und mit `-keyfile` übergeben werden. Er taucht dann weder im
+Befehl noch in der Eingabe auf, steht in der Datei aber im Klartext:
 
 ```
 fas -keyfile key.txt alarmdaten.xlsx 600 4    # startet direkt
@@ -433,6 +477,9 @@ Unter Windows lässt sich das per Verknüpfung auf einen Doppelklick legen:
 Rechtsklick auf `fas.exe` → *Verknüpfung erstellen*, dann in den Eigenschaften
 bei *Ziel* hinter `fas.exe` z. B. ` -keyfile key.txt` ergänzen. Die Key-Datei
 wie ein Passwort behandeln und nicht weitergeben.
+
+Die Key-Datei wird im aktuellen Ordner und neben dem Programm gesucht. Sie darf
+als UTF-8 oder UTF-16 gespeichert sein (Editor, PowerShell).
 
 ### Ablauf
 
@@ -460,7 +507,7 @@ nicht übertragen, leere Zeilen übersprungen.
 | `reporter_name`, `reporter_phone`, `reporter_info` | Meldender |
 | `situation` | Meldebild |
 | `timestampStarted` | Einsatzbeginn als Unix-Zeit (Sekunden oder Millisekunden); leer = Zeitpunkt des Eingangs |
-| `uniqueId` | *optional* – eindeutige ID, sonst wird `externalNumber` verwendet |
+| `uniqueId` | *optional* – eindeutige ID, sonst wird `externalNumber` verwendet. FAS hängt bei jeder neuen Übung eine Kennung an (z. B. `-261002193000`), damit Fireboard die Alarme einer wiederholten Übung als neue Einsätze anzeigt |
 | `update_keyword` | *optional* – neues Stichwort beim Lage-Update |
 | `update_situation` | *optional* – neues Meldebild beim Lage-Update |
 | `update_after` | *optional* – Update automatisch so lange nach dem Alarm senden: `mm:ss` (`10:00`) oder Sekunden (`600`); leer = nur von Hand mit `u` |
@@ -518,8 +565,8 @@ fas -random 20 -seed 4711 alarmdaten_tecklenburg.xlsx <authkey> 600 4
 ```
 
 Eine Datei nur mit den Blättern `Stichwörter` und `Adressen` funktioniert auch –
-dann gibt es ausschließlich Zufallsalarme. `fas -close` schließt nur die
-Alarme der Tabelle; Zufallsalarme mit `C` in der Oberfläche schließen.
+dann gibt es ausschließlich Zufallsalarme. `fas -close` schließt auch die
+laut Protokoll noch offenen Zufallsalarme.
 
 ## Lage-Updates und Schließen
 
@@ -527,11 +574,19 @@ Fireboard erkennt einen Alarm an seiner `uniqueId`. Wird dieselbe ID erneut
 gesendet, aktualisiert Fireboard den vorhandenen Alarm – so werden Lage-Updates
 übertragen.
 
+Damit eine wiederholte Übung mit derselben Excel-Datei neue Einsätze erzeugt,
+hängt FAS an jede ID die Kennung der Übung an (Startzeitpunkt, z. B.
+`TEST100010-260923131002`). Die Einsatznummer (`externalNumber`) bleibt
+unverändert. Eine fortgesetzte Übung behält ihre Kennung.
+
 Zum Schließen wird der Alarm mit `timestampClosed` erneut gesendet. Laut
 Fireboard-Spezifikation wird er dann **auf den Endgeräten ausgeblendet**; ob das
 auch den Einsatz in der Fireboard Suite abschließt, ist nicht dokumentiert. Da
-die IDs aus der Excel-Datei stammen, lassen sich Alarme auch später noch
+die Kennung jeder Übung im Protokoll steht, lassen sich Alarme auch später noch
 schließen: mit `c` in der Oberfläche oder `fas -close <datei> <authkey>`.
+`-close` schließt alle Alarme der Excel-Datei, die laut Protokoll gesendet und
+noch nicht geschlossen wurden, auch aus früheren Übungen – das Protokoll darf
+dafür nicht gelöscht oder verschoben werden.
 
 Die Übungszeit, `zeitpunkt` und `update_after` zählen ohne Pausen.
 
@@ -620,14 +675,33 @@ einer Zeile `Start`. Der AuthKey wird nie protokolliert.
 
 ```
 Zeitpunkt;Übungszeit;Aktion;Zeile;uniqueId;Einsatznummer;Stichwort;Testlauf;HTTP;Ergebnis;Meldungen;Hinweis
-23.09.2026 13:10:02;0:00:00;Start;;;;;nein;;neu;seed=4711 prefix=ZUF-2609231310;
-23.09.2026 13:18:26;0:08:24;Alarm;Z11;TEST100010;TEST100010;B2 - Brand landw. Gebäude;nein;200;ok;;
-23.09.2026 13:26:26;0:16:24;Lage-Update;Z11;TEST100010;TEST100010;B3 - Brand landw. Gebäude;nein;200;ok;;
-23.09.2026 13:40:11;0:30:09;Schließen;Z11;TEST100010;TEST100010;B3 - Brand landw. Gebäude;nein;200;ok;;
+23.09.2026 13:10:02;0:00:00;Start;;;;;nein;;neu;run=260923131002 seed=4711 prefix=ZUF-2609231310;
+23.09.2026 13:18:26;0:08:24;Alarm;Z11;TEST100010-260923131002;TEST100010;B2 - Brand landw. Gebäude;nein;200;ok;;
+23.09.2026 13:26:26;0:16:24;Lage-Update;Z11;TEST100010-260923131002;TEST100010;B3 - Brand landw. Gebäude;nein;200;ok;;
+23.09.2026 13:40:11;0:30:09;Schließen;Z11;TEST100010-260923131002;TEST100010;B3 - Brand landw. Gebäude;nein;200;ok;;
 ```
 
 Ein Protokoll im Format einer älteren Version wird beim Start in
 `…_protokoll_alt_<datum>.csv` umbenannt und ein neues begonnen.
+
+## Diagnose
+
+Stürzt FAS ab, schreibt es die Datei `fas_diagnose.txt` in den aktuellen Ordner
+(ist der nicht beschreibbar, in den Temp-Ordner) und nennt den Pfad. Lässt sich
+ein Problem anders nicht erklären – das Fenster schließt sich sofort, die
+Key-Datei wird nicht gefunden –, FAS mit `-diagnose` starten:
+
+```
+fas -diagnose -keyfile key.txt alarmdaten.xlsx
+```
+
+Die Datei enthält dann bei jedem Start: Version und Betriebssystem, den Aufruf,
+Angaben zum Terminal, zur Key-Datei (Fundort, Größe, Kodierung), zur
+Excel-Datei und zum Protokoll, die Schritte bis zum Ende und bei einem Absturz
+die Stelle im Programm. Der AuthKey steht nie darin, nur seine Länge; von den
+Alarmen nur die Anzahl und die Warnungen. Die Datei kann einer
+[Fehlermeldung](https://github.com/kventil/fireboard-alarm-simulator-releases/issues/new/choose) beigelegt werden; neue Einträge werden
+angehängt.
 
 ## Fehlermeldungen
 

@@ -148,6 +148,9 @@ footer {
 }
 footer a { color: var(--dim); }
 
+.versions h3 { margin-top: 1.5rem; }
+.versions h3 span { color: var(--dim); font-size: .9rem; font-weight: 400; margin-left: .4rem; }
+
 .small { color: var(--dim); font-size: .9rem; }
 .small a { color: var(--dim); }
 

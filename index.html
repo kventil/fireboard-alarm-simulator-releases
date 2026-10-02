@@ -86,6 +86,7 @@
     <a href="#ablauf">Ablauf</a>
     <a href="#handy">Handy</a>
     <a href="#fragen">Fragen</a>
+    <a href="#versionen">Versionen</a>
     <a href="https://github.com/kventil/fireboard-alarm-simulator-releases/issues/new/choose">Feedback</a>
     <a href="https://github.com/kventil/fireboard-alarm-simulator-releases#readme">Anleitung</a>
   </nav>
@@ -106,6 +107,11 @@ Eure Führungskräfte arbeiten sie in Fireboard ab wie echte Einsätze.
 <p class="download">
   <a href="https://github.com/kventil/fireboard-alarm-simulator-releases/releases/latest">Neueste Version herunterladen</a>
   <span>Windows 10/11 und Mac · kostenlos · keine Installation</span>
+</p>
+
+<p class="small">
+Zum Testen: <a href="https://github.com/kventil/fireboard-alarm-simulator-releases/releases/tag/v2.1.0-beta.1">Vorabversion 2.1.0-beta.1</a>
+– <a href="#versionen">was ist neu?</a>
 </p>
 
 <p class="small">
@@ -183,7 +189,8 @@ Einsätze landen nur im Alarmeingang.
   <li>
     <h3>Übung live</h3>
     <p>Für die echte Übung <b>Live</b> wählen und den AuthKey eingeben. Der
-    Key wird nicht gespeichert und bei jedem Start neu abgefragt.</p>
+    Key wird nur gespeichert, wenn du es möchtest – dann verschlüsselt auf
+    deinem Computer.</p>
   </li>
   <li>
     <h3>Aufräumen</h3>
@@ -259,9 +266,9 @@ Weitere Spalten gibt es für Meldende, Koordinaten, feste Zeiten
 
 <details>
   <summary>Wird mein AuthKey gespeichert?</summary>
-  <p>Nein, nie. Du gibst ihn bei jedem Start ein. Wer das nicht jedes Mal
-  möchte, kann ihn in eine Datei legen – siehe
-  <a href="https://github.com/kventil/fireboard-alarm-simulator-releases#authkey-aus-einer-datei">AuthKey aus einer Datei</a>.</p>
+  <p>Nur, wenn du es willst. Ohne dein Zutun gibst du ihn bei jedem Start
+  ein. Auf Wunsch speichert FAS ihn verschlüsselt auf deinem Computer – siehe
+  <a href="https://github.com/kventil/fireboard-alarm-simulator-releases#authkey-speichern">AuthKey speichern</a>.</p>
 </details>
 
 <details>
@@ -300,6 +307,72 @@ Alles Weitere – Tasten, alle Spalten, Zufallsalarme einrichten, Protokoll,
 Fehlermeldungen – steht in der
 <a href="https://github.com/kventil/fireboard-alarm-simulator-releases#readme">vollständigen Anleitung</a>.
 </p>
+
+<h2 id="versionen">Versionen</h2>
+
+<p>
+Was sich geändert hat – die neueste Version zuerst. Alle Downloads stehen auf
+der <a href="https://github.com/kventil/fireboard-alarm-simulator-releases/releases">Versionsseite</a>.
+</p>
+
+<div class="versions">
+
+<h3><a href="https://github.com/kventil/fireboard-alarm-simulator-releases/releases/tag/v2.1.0-beta.1">2.1.0-beta.1</a> <span>2. Oktober 2026 · Vorabversion</span></h3>
+<p>
+Zum Testen gedacht – für Übungen bitte weiter die
+<a href="https://github.com/kventil/fireboard-alarm-simulator-releases/releases/latest">neueste reguläre Version</a> verwenden.
+Rückmeldungen gern über <a href="#feedback">Feedback</a>.
+</p>
+<ul>
+  <li><b>Übung wiederholen:</b> Wird dieselbe Excel-Liste noch einmal
+    durchgespielt, erscheinen die Alarme in Fireboard wieder als neue Einsätze.
+    Bisher blieben sie aus, weil Fireboard sie für bereits bekannte Einsätze
+    hielt.</li>
+  <li><b>Alle Alarme schließen</b> schließt, was laut Protokoll noch offen ist –
+    auch aus früheren Übungen und einschließlich der Zufallsalarme. Die
+    Protokolldatei neben der Excel-Liste dafür nicht löschen.</li>
+  <li><b>AuthKey speichern:</b> Auf Wunsch merkt sich FAS den AuthKey –
+    verschlüsselt über das Windows-Benutzerkonto bzw. im Mac-Schlüsselbund,
+    nie im Klartext. Im Startbildschirm bei der Eingabe mit <kbd>Tab</kbd>
+    ankreuzen.</li>
+  <li><b>Key-Datei unter Windows:</b> Key-Dateien aus PowerShell oder dem
+    Editor (UTF-16) werden richtig gelesen und auch neben dem Programm
+    gefunden. Optionen dürfen hinter der Excel-Datei stehen.</li>
+  <li><b>Fenster bleibt offen:</b> Bei einem Fehler beim Start schließt sich
+    das Fenster unter Windows nicht mehr sofort – die Meldung bleibt lesbar.</li>
+  <li><b>Diagnose:</b> Bei einem Absturz schreibt FAS die Datei
+    <code>fas_diagnose.txt</code>, mit <code>-diagnose</code> auch bei jedem
+    Start. Sie enthält keinen AuthKey und hilft bei der Fehlersuche.</li>
+</ul>
+
+<h3><a href="https://github.com/kventil/fireboard-alarm-simulator-releases/releases/tag/v2.0.0">2.0.0</a> <span>28. September 2026</span></h3>
+<ul>
+  <li>Handy-Fernbedienung: klareres Koppeln, zuverlässiger QR-Code, noch nicht
+    ausgeführte Befehle sind sichtbar.</li>
+  <li>FAS und die Steuerseite gleichen ihre Versionen ab.</li>
+</ul>
+
+<h3><a href="https://github.com/kventil/fireboard-alarm-simulator-releases/releases/tag/v1.4.0">1.4.0</a> <span>27. September 2026</span></h3>
+<ul>
+  <li>Neu: das Handy als Fernbedienung, Ende-zu-Ende verschlüsselt.</li>
+</ul>
+
+<h3><a href="https://github.com/kventil/fireboard-alarm-simulator-releases/releases/tag/v1.3.0">1.3.0</a> <span>25. September 2026</span></h3>
+<ul>
+  <li>Neue Anleitung mit Bildschirmfotos.</li>
+</ul>
+
+<h3><a href="https://github.com/kventil/fireboard-alarm-simulator-releases/releases/tag/v1.2.0">1.2.0</a> <span>25. September 2026</span></h3>
+<ul>
+  <li>Neue Oberfläche.</li>
+</ul>
+
+<h3>1.1.0 <span>23. September 2026</span></h3>
+<ul>
+  <li>Erste Version.</li>
+</ul>
+
+</div>
 
 <h2 id="feedback">Feedback</h2>
 
