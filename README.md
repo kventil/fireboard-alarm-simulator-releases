@@ -90,7 +90,7 @@ erscheint dann hier. Oder die Datei direkt **auf `fas.exe` ziehen**.
 ### 3. Einstellungen
 
 Mit `↑` `↓` zwischen den Zeilen wechseln, mit `←` `→` oder der Leertaste die
-Auswahl ändern. Zahlen einfach eintippen. Unter den Einstellungen steht, was
+Auswahl ändern – oder die gewünschte Option mit der Maus anklicken. Zahlen einfach eintippen. Unter den Einstellungen steht, was
 die gewählte Zeile bewirkt.
 
 ![Startbildschirm: Einstellungen](docs/images/start-einstellungen.png)
@@ -169,6 +169,17 @@ mehr (siehe [AuthKey speichern](#authkey-speichern)).
 | `q` | beenden |
 
 `Esc` bricht eine Rückfrage (`d`, `C`) ab, ohne zu beenden.
+
+**Mit der Maus:** Ein Klick wählt einen Einsatz, das Mausrad blättert. Ein
+zweiter Klick auf den ausgewählten Einsatz öffnet ein Fenster mit den passenden
+Aktionen (senden, Lage-Update, schließen, löschen) – ausgeführt wird erst, wenn
+du dort eine Schaltfläche anklickst. Auch die Schaltflächen ganz unten lassen
+sich anklicken; *senden*, *Lage-Update* und *schließen* öffnen dabei zuerst
+dieses Fenster, *beenden* fragt noch einmal nach. Zum Markieren und Kopieren von
+Text die Umschalttaste (Windows) bzw. die Wahltaste ⌥ (Mac) gedrückt halten.
+
+Nach dem Beenden steht im Fenster eine kurze Zusammenfassung: wie viele Alarme
+gesendet wurden und wo das Protokoll liegt.
 
 ---
 
