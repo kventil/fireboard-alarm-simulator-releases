@@ -75,7 +75,8 @@ entpacken (Rechtsklick → *Alle extrahieren*). Im Ordner liegen:
 
 **Doppelklick auf `fas.exe`.** Es öffnet sich ein Fenster mit dem
 Startbildschirm. Mit den Pfeiltasten `↑` `↓` die Excel-Liste auswählen, dann
-`Enter`.
+`Enter` – oder die Datei mit der Maus anklicken (zweiter Klick: weiter). Wurde
+die letzte Übung mit einer Datei nicht beendet, steht das direkt darunter.
 
 ![Startbildschirm: Alarmliste wählen](docs/images/start-datei.png)
 
@@ -88,8 +89,9 @@ erscheint dann hier. Oder die Datei direkt **auf `fas.exe` ziehen**.
 
 ### 3. Einstellungen
 
-Mit `↑` `↓` zwischen den Zeilen wechseln, mit `←` `→` die Auswahl ändern.
-Zahlen einfach eintippen.
+Mit `↑` `↓` zwischen den Zeilen wechseln, mit `←` `→` oder der Leertaste die
+Auswahl ändern. Zahlen einfach eintippen. Unter den Einstellungen steht, was
+die gewählte Zeile bewirkt.
 
 ![Startbildschirm: Einstellungen](docs/images/start-einstellungen.png)
 
@@ -110,7 +112,9 @@ kommt nichts an. Beenden mit `q`.
 
 FAS noch einmal starten, bei *Senden* **Live** wählen und `Enter`. Jetzt fragt
 FAS nach dem **AuthKey**: eintippen oder mit Rechtsklick / `Strg+V` einfügen,
-dann `Enter`. Der Key wird **nicht gespeichert** und bei jedem Start neu
+dann `Enter`. Bei langen Keys zeigt FAS die letzten vier Zeichen und die Länge,
+damit du siehst, ob der richtige Key vollständig eingefügt ist. Der Key wird
+**nicht gespeichert** und bei jedem Start neu
 abgefragt – außer du setzt mit `Tab` das Häkchen bei *AuthKey speichern*. Dann
 legt FAS ihn geschützt auf diesem Computer ab und fragt beim nächsten Mal nicht
 mehr (siehe [AuthKey speichern](#authkey-speichern)).
@@ -126,31 +130,45 @@ mehr (siehe [AuthKey speichern](#authkey-speichern)).
 - **Oben** siehst du, ob wirklich gesendet wird (**LIVE**) oder nur geübt wird
   (**TESTLAUF**), und wie viele Alarme schon raus sind.
 - **Übungszeit** läuft seit dem Start; bei Pause bleibt sie stehen.
-- **Die Liste** zeigt jeden Einsatz: `Z4` ist Zeile 4 deiner Excel-Liste.
+- **Die Liste** zeigt jeden Einsatz: `Z4` ist Zeile 4 deiner Excel-Liste. Die
+  Zeit davor ist die Übungszeit, zu der er gesendet wurde (`+5:10`). Die
+  Liste nutzt die ganze Fensterhöhe; ein größeres Fenster zeigt mehr Einsätze.
+- **Unter der Liste** steht alles zum ausgewählten Einsatz: Alarmtext,
+  Meldebild, Objekt, Meldender und die geplante Lageänderung. Ist das Fenster
+  breit genug, stehen daneben **Als Nächstes** (was gleich gesendet wird) und
+  der **Verlauf** (was zuletzt passiert ist). In kleinen Fenstern zeigt `i`
+  alle Details, `Esc` schließt sie wieder.
+- **Ganz unten** stehen nur die Tasten, die für den ausgewählten Einsatz gerade
+  passen.
 
 | Symbol | Bedeutung |
 |---|---|
 | `○` | wartet |
 | `●` | kommt als Nächstes – mit Countdown |
 | `◷` | kommt zu einer festen Zeit ([Drehbuch](#nach-drehbuch)) |
-| `✓` | gesendet |
-| `✗` | Fehler – was los ist, steht unter der Liste |
-| `Update ✓` | Lageänderung wurde gesendet; `Upd 4:12` = kommt in 4:12 Minuten |
+| `✓ gesendet` | gesendet (`✓ Testlauf` im Testlauf) |
+| `✗ … fehlgeschlagen` | Fehler – was los ist, steht unter der Liste |
+| `✓ Update gesendet` | Lageänderung wurde gesendet; `Update in 4:12` = kommt in 4:12 Minuten |
 
 ## Tasten
 
 | Taste | Was passiert |
 |---|---|
 | `↑` `↓` | Einsatz auswählen |
+| `Bild↑` `Bild↓` | seitenweise blättern |
+| `n` | zum nächsten Einsatz springen, der noch nicht gesendet ist |
+| `i` | alle Details des Einsatzes zeigen (`Esc` schließt sie) |
 | `Enter` | ausgewählten Einsatz **sofort** senden |
 | `Leertaste` | **Pause** – alles hält an, bis du noch mal die Leertaste drückst |
 | `u` | Lageänderung des Einsatzes senden |
 | `c` | ausgewählten Einsatz in Fireboard **schließen** |
 | `C` `C` | **alle** gesendeten Einsätze schließen (zweimal drücken) |
 | `z` | einen [Zufallsalarm](#zufallsalarme) hinzufügen |
-| `d` | Einsatz für diese Übung streichen (die Excel-Liste bleibt unverändert) |
+| `d` `d` | Einsatz für diese Übung streichen (zweimal drücken; die Excel-Liste bleibt unverändert) |
 | `h` | [Handy als Fernbedienung](#handy-als-fernbedienung) verbinden |
 | `q` | beenden |
+
+`Esc` bricht eine Rückfrage (`d`, `C`) ab, ohne zu beenden.
 
 ---
 
@@ -424,7 +442,8 @@ Optionen dürfen vor oder hinter der Excel-Datei stehen.
 | `FAS_URL` | Umgebungsvariable, ersetzt `https://login.fireboard.net/api` (z. B. für einen Testserver) |
 
 Weitere Tasten: `j` `k` (wie `↑` `↓`), `g` / `G` (zum ersten / letzten Alarm),
-`s` (wie `Enter`), `p` (wie Leertaste), `Entf` (wie `d`). Mit `Enter` lässt
+`Pos1` / `Ende` (wie `g` / `G`), `s` (wie `Enter`), `p` (wie Leertaste),
+`Entf` (wie `d`). Mit `Enter` lässt
 sich ein bereits gesendeter Alarm erneut senden.
 
 ### AuthKey speichern
