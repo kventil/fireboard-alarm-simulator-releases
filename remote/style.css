@@ -153,3 +153,109 @@ h2 { font-size: 14px; text-transform: uppercase; letter-spacing: .05em; color: v
 }
 footer { color: var(--dim); font-size: 13px; text-align: center; padding: 0 16px 24px; }
 .versions { margin-top: 6px; font-variant-numeric: tabular-nums; }
+.rows .hint { color: var(--dim); font-size: 13px; }
+.rows li.expandable { cursor: pointer; }
+.rows .chevron { color: var(--dim); font-weight: 400; }
+.rows .details {
+  border-top: 1px solid var(--line);
+  margin: 0 0 8px;
+  padding-top: 6px;
+  font-size: 15px;
+}
+.rows .detail { margin-bottom: 4px; overflow-wrap: anywhere; }
+.rows .detail .label { display: block; font-size: 12px; color: var(--dim); }
+.rows .detail.regie {
+  border-left: 3px solid var(--warn);
+  padding-left: 8px;
+}
+.notice {
+  position: fixed;
+  left: 16px;
+  right: 16px;
+  top: calc(8px + env(safe-area-inset-top));
+  z-index: 10;
+  background: var(--ok);
+  color: #fff;
+  padding: 12px 14px;
+  border-radius: 8px;
+  max-width: 608px;
+  margin: 0 auto;
+  font-weight: 600;
+}
+.notice.failed { background: var(--err); }
+.notice[hidden] { display: none; }
+.setting { display: block; margin: 16px 0; color: var(--dim); font-size: 14px; }
+
+button.secondary { display: block; margin: 8px 0 16px; background: transparent; color: var(--dim); font-size: 14px; }
+button.secondary.armed { background: var(--err); color: #fff; }
+
+/* Detail sheet and note composer: in-page views above the list. */
+body.layer-open { overflow: hidden; }
+.sheet {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  background: var(--bg);
+  overflow-y: auto;
+  padding: env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
+}
+.sheet[hidden], .composer[hidden] { display: none; }
+.sheet-head {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--card);
+  border-bottom: 1px solid var(--line);
+}
+.sheet-head .back { min-height: 44px; padding: 0 12px; flex: none; }
+.sheet-title { font-weight: 600; overflow-wrap: anywhere; }
+.sheet-body { padding: 12px 16px 32px; max-width: 640px; margin: 0 auto; }
+.sheet-body .detail { margin-bottom: 10px; overflow-wrap: anywhere; white-space: pre-wrap; }
+.sheet-body .detail .label { display: block; font-size: 12px; color: var(--dim); white-space: normal; }
+.sheet-body .detail.regie { border-left: 3px solid var(--warn); padding-left: 8px; }
+.sheet-body .detail .when { display: block; color: var(--dim); font-size: 14px; }
+.sheet-body .detail .when.ok { color: var(--ok); }
+.sheet-body .detail .when.err { color: var(--err); }
+.sheet-body .detail.err .text { color: var(--err); }
+.sheet-body .loading { color: var(--dim); font-size: 14px; margin: 4px 0 12px; }
+.sheet-body .btns { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.sheet-body .btns button { flex: 1 1 40%; }
+.composer {
+  position: fixed;
+  inset: 0;
+  z-index: 30;
+  background: rgba(0, 0, 0, .45);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: calc(24px + env(safe-area-inset-top)) 16px 16px;
+}
+.composer-box {
+  width: 100%;
+  max-width: 608px;
+  background: var(--card);
+  border-radius: 10px;
+  padding: 14px;
+}
+.composer-box h3 { margin: 0 0 4px; font-size: 17px; }
+.composer-hint { margin: 0 0 8px; color: var(--dim); font-size: 14px; }
+.composer textarea {
+  width: 100%;
+  font: inherit;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 8px 10px;
+  resize: vertical;
+}
+.composer-meta { display: flex; justify-content: space-between; gap: 8px; font-size: 13px; margin: 4px 0 10px; }
+.note-count { color: var(--dim); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.note-err { color: var(--err); }
+.composer-btns { display: flex; gap: 8px; }
+.composer-btns button { flex: 1; }
+.toast.ok { background: var(--ok); }
+.toast { z-index: 40; }

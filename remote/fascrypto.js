@@ -11,7 +11,7 @@ export const LABEL_DOWN = "fas-down-v1";
 // relay schemes this page speaks (v= in the QR code), API_LEVEL the level of
 // messages and commands.
 export const TRANSPORTS = [1];
-export const API_LEVEL = 1;
+export const API_LEVEL = 2;
 
 export function b64url(bytes) {
   let s = "";
@@ -104,8 +104,11 @@ export function hello(keys, dev, name, page) {
   return signed(keys, dev, { t: "hello", dev: b64url(dev.raw), name, page, api: API_LEVEL });
 }
 
-export function command(keys, dev, seq, c, u) {
-  return signed(keys, dev, { t: "cmd", id: dev.id, seq, c, u: u || "" });
+// command signs a command; x is the text of a note (only sent when given).
+export function command(keys, dev, seq, c, u, x) {
+  const p = { t: "cmd", id: dev.id, seq, c, u: u || "" };
+  if (x !== undefined) p.x = x;
+  return signed(keys, dev, p);
 }
 
 export async function readDown(keys, msg) {

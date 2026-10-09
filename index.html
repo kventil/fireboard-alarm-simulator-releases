@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Fireboard Alarm Simulator – Übungsalarme für die Feuerwehr</title>
-<meta name="description" content="Kostenloses Programm für Feuerwehr-Übungen: schickt Übungseinsätze aus einer Excel-Liste als Testalarme in den Fireboard-Alarmeingang. Für Windows und Mac.">
+<meta name="description" content="Kostenloses Programm für Feuerwehr-Übungen: schickt Übungsalarme aus einer Excel-Liste als Testalarme in den Fireboard-Alarmeingang. Für Windows und Mac.">
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large">
 <link rel="canonical" href="https://fireboard-simulator.de/">
 
@@ -13,7 +13,7 @@
 <meta property="og:locale" content="de_DE">
 <meta property="og:url" content="https://fireboard-simulator.de/">
 <meta property="og:title" content="Fireboard Alarm Simulator – Übungsalarme für die Feuerwehr">
-<meta property="og:description" content="FAS spielt bei der Übung die Leitstelle: Einsätze aus einer Excel-Liste landen als Testalarme im Fireboard-Alarmeingang – automatisch, nach Drehbuch oder auf Knopfdruck. Kostenlos für Windows und Mac.">
+<meta property="og:description" content="FAS spielt bei der Übung die Leitstelle: Alarme aus einer Excel-Liste landen als Testalarme im Fireboard-Alarmeingang – automatisch, nach Drehbuch oder auf Knopfdruck. Kostenlos für Windows und Mac.">
 <meta property="og:image" content="https://fireboard-simulator.de/docs/images/uebung.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1600">
@@ -40,7 +40,7 @@
       "alternateName": "FAS",
       "url": "https://fireboard-simulator.de/",
       "mainEntityOfPage": "https://fireboard-simulator.de/",
-      "description": "Programm für Feuerwehr-Übungen: schickt Übungseinsätze aus einer Excel-Liste als Testalarme in den Fireboard-Alarmeingang – automatisch verteilt, nach Drehbuch zu festen Zeiten oder von Hand. Es werden keine Einsatzkräfte alarmiert. Unabhängiges Projekt, nicht von Fireboard entwickelt.",
+      "description": "Programm für Feuerwehr-Übungen: schickt Übungsalarme aus einer Excel-Liste als Testalarme in den Fireboard-Alarmeingang – automatisch verteilt, nach Drehbuch zu festen Zeiten oder von Hand. Es werden keine Einsatzkräfte alarmiert. Unabhängiges Projekt, nicht von Fireboard entwickelt.",
       "inLanguage": "de",
       "applicationCategory": "UtilitiesApplication",
       "operatingSystem": "Windows 10, Windows 11, macOS",
@@ -62,9 +62,9 @@
       },
       "featureList": [
         "Übungsalarme automatisch über die Übungszeit verteilen",
-        "Drehbuch: Einsätze zu festen Zeiten",
-        "Einsätze von Hand durch die Übungsleitung senden",
-        "Lageänderungen im Lauf der Übung",
+        "Drehbuch: Alarme zu festen Zeiten",
+        "Alarme von Hand durch die Übungsleitung senden",
+        "Lage-Updates im Lauf der Übung",
         "Zufallsalarme aus Stichwort- und Adressliste",
         "Handy als Fernbedienung per QR-Code, Ende-zu-Ende verschlüsselt",
         "Testlauf ohne Senden an Fireboard",
@@ -98,21 +98,15 @@
 
 <p>
 Du planst eine Übung für deine Feuerwehr, zum Beispiel eine Unwetterlage mit
-vielen Einsätzen gleichzeitig? Der Fireboard Alarm Simulator (FAS) spielt dabei
-die Leitstelle: Er schickt die Einsätze aus deiner Excel-Liste in euren
+vielen Alarmen gleichzeitig? Der Fireboard Alarm Simulator (FAS) spielt dabei
+die Leitstelle: Er schickt die Alarme aus deiner Excel-Liste in euren
 Fireboard-Alarmeingang – nach und nach, zu festen Zeiten oder auf Knopfdruck.
-Eure Führungskräfte arbeiten sie in Fireboard ab wie echte Einsätze.
+Eure Führungskräfte arbeiten sie in Fireboard ab wie echte Alarme.
 </p>
 
 <p class="download">
   <a href="https://github.com/kventil/fireboard-alarm-simulator-releases/releases/latest">Neueste Version herunterladen</a>
   <span>Windows 10/11 und Mac · kostenlos · keine Installation</span>
-</p>
-
-<p class="small">
-<span class="badge beta">Beta</span>
-<a href="https://github.com/kventil/fireboard-alarm-simulator-releases/releases/tag/v2.1.0-beta.4">Vorabversion 2.1.0-beta.4</a>
-nur zum Testen, nicht für Übungen – <a href="#versionen">was ist neu?</a>
 </p>
 
 <p class="small">
@@ -122,28 +116,28 @@ Verbindung zu <a href="https://fireboard.net/">Fireboard</a>.
 
 <figure>
   <img src="docs/images/uebung.png" width="1696" height="1420" alt="Übungsansicht während einer laufenden Übung">
-  <figcaption>Die Übungsansicht: welche Einsätze raus sind, welcher als Nächstes kommt, und alles zum ausgewählten Einsatz.</figcaption>
+  <figcaption>Die Übungsansicht: welche Alarme raus sind, welcher als Nächstes kommt, und alles zum ausgewählten Alarm.</figcaption>
 </figure>
 
 <p class="note">
 Alle Alarme sind in Fireboard als <b>Testalarme</b> gekennzeichnet. FAS
 alarmiert keine Einsatzkräfte – kein Piepser, keine SMS, keine App. Die
-Einsätze landen nur im Alarmeingang.
+Alarme landen nur im Alarmeingang.
 </p>
 
 <h2>Was FAS kann</h2>
 
 <dl class="features">
   <dt>Automatisch verteilen</dt>
-  <dd>Zum Beispiel 4 Einsätze alle 10 Minuten, jeweils zu zufälligen Zeitpunkten.</dd>
+  <dd>Zum Beispiel 4 Alarme alle 10 Minuten, jeweils zu zufälligen Zeitpunkten.</dd>
   <dt>Drehbuch</dt>
-  <dd>Bestimmte Einsätze zu festen Zeiten – „nach 20 Minuten brennt die Scheune“.</dd>
+  <dd>Bestimmte Alarme zu festen Zeiten – „nach 20 Minuten brennt die Scheune“.</dd>
   <dt>Von Hand</dt>
-  <dd>Die Übungsleitung schickt jeden Einsatz selbst ab und reagiert auf die Lage.</dd>
-  <dt>Lageänderungen</dt>
-  <dd>Ein Einsatz verschärft sich im Lauf der Übung, etwa von B2 auf B3.</dd>
+  <dd>Die Übungsleitung schickt jeden Alarm selbst ab und reagiert auf die Lage.</dd>
+  <dt>Lage-Updates</dt>
+  <dd>Ein Alarm verschärft sich im Lauf der Übung, etwa von B2 auf B3.</dd>
   <dt>Zufallsalarme</dt>
-  <dd>FAS würfelt Einsätze aus einer Stichwort- und einer Adressliste zusammen. Die Scheune brennt auf einem Hof, der Baum liegt auf einer Straße.</dd>
+  <dd>FAS würfelt Alarme aus einer Stichwort- und einer Adressliste zusammen. Die Scheune brennt auf einem Hof, der Baum liegt auf einer Straße.</dd>
   <dt>Handy als Fernbedienung</dt>
   <dd>QR-Code scannen und die Übung vom Handy aus steuern. Ohne App.</dd>
   <dt>Testlauf</dt>
@@ -161,7 +155,11 @@ Einsätze landen nur im Alarmeingang.
   <li>ein Fireboard-Konto mit dem Modul <i>Alarmverarbeitung</i> und den
     dazugehörigen AuthKey (Fireboard-Portal → <i>Benutzerkonto →
     AuthKey-Verwaltung</i>, Eintrag „Alarmverarbeitung PLUS“)</li>
-  <li>eine Excel-Liste mit deinen Übungseinsätzen – zwei Beispiele sind dabei</li>
+  <li>eine Excel-Liste mit deinen Übungsalarmen – zwei Beispiele sind dabei</li>
+  <li>einen Laptop, der nicht in den Standby geht: in den Energieoptionen
+    Standby und Ruhezustand ausschalten, das Netzteil anschließen. „Bildschirm
+    aus“ ist in Ordnung. Geht der Laptop trotzdem schlafen, hält FAS die Übung
+    selbst an und sagt es dir.</li>
 </ul>
 
 <h2 id="ablauf">So läuft es ab</h2>
@@ -191,12 +189,17 @@ Einsätze landen nur im Alarmeingang.
     <h3>Übung live</h3>
     <p>Für die echte Übung <b>Live</b> wählen und den AuthKey eingeben. Der
     Key wird nur gespeichert, wenn du es möchtest – dann verschlüsselt auf
-    deinem Computer.</p>
+    deinem Computer. Ob der Key stimmt, kann der Startbildschirm nicht
+    prüfen – das zeigt sich beim ersten Alarm. Ein falscher Key hält die Übung
+    an, FAS gibt einen Hinweis.</p>
   </li>
   <li>
     <h3>Aufräumen</h3>
     <p>Nach der Übung schließt <kbd>C</kbd> <kbd>C</kbd> alle gesendeten
-    Einsätze in Fireboard. Neben der Excel-Liste liegt ein Protokoll mit
+    Alarme (oder später im Startbildschirm <i>Alle Alarme der Datei
+    schließen</i>). Das blendet sie nur auf den Geräten aus: Lösche die
+    Testalarme anschließend im Fireboard-Portal unter <i>Alarmeingang</i>,
+    bevor die nächste Gruppe übt. Neben der Excel-Liste liegt ein Protokoll mit
     jeder Meldung, Uhrzeit und Übungszeit.</p>
   </li>
 </ol>
@@ -204,7 +207,7 @@ Einsätze landen nur im Alarmeingang.
 <h2>Die Excel-Liste</h2>
 
 <p>
-Jede Zeile ist ein Einsatz, in der ersten Zeile stehen die Spaltennamen. Am
+Jede Zeile ist ein Alarm, in der ersten Zeile stehen die Spaltennamen. Am
 einfachsten nimmst du eine der Beispiel-Listen und änderst sie ab.
 </p>
 
@@ -222,7 +225,7 @@ einfachsten nimmst du eine der Beispiel-Listen und änderst sie ab.
 
 <p>
 Weitere Spalten gibt es für Meldende, Koordinaten, feste Zeiten
-(<code>zeitpunkt</code>) und Lageänderungen (<code>update_keyword</code>,
+(<code>zeitpunkt</code>) und Lage-Updates (<code>update_keyword</code>,
 <code>update_situation</code>, <code>update_after</code>). Alle stehen in der
 <a href="https://github.com/kventil/fireboard-alarm-simulator-releases#alle-spalten">Spaltenübersicht</a>.
 </p>
@@ -233,7 +236,7 @@ Weitere Spalten gibt es für Meldende, Koordinaten, feste Zeiten
   <div>
     <p>
     Die Übungsleitung muss nicht am Laptop sitzen. Mit dem Handy lassen sich
-    Alarme senden, Lageänderungen auslösen, Einsätze schließen und die Übung
+    Alarme senden, Lage-Updates auslösen, Alarme schließen und die Übung
     pausieren – von überall, wo das Handy Internet hat.
     </p>
     <ol>
@@ -247,6 +250,13 @@ Weitere Spalten gibt es für Meldende, Koordinaten, feste Zeiten
     Im Live-Betrieb muss jeder Alarm zweimal angetippt werden, damit nichts
     aus Versehen rausgeht.
     </p>
+    <p>
+    Der QR-Code ist der Schlüssel zur Übung – behandle ihn wie den AuthKey.
+    Die vierstellige Zahl hilft dir, beim Freigeben das richtige Handy zu
+    erkennen. Gib nur das Handy frei, mit dem du gescannt hast. Kommt eine
+    zweite Anfrage, die du nicht ausgelöst hast, lehne sie mit <kbd>N</kbd> ab
+    und beende die Fernbedienung mit <kbd>x</kbd>.
+    </p>
   </div>
   <img src="docs/images/handy.png" width="323" height="700" alt="Fernbedienung auf dem Handy" loading="lazy">
 </div>
@@ -255,7 +265,7 @@ Weitere Spalten gibt es für Meldende, Koordinaten, feste Zeiten
 
 <details>
   <summary>Werden unsere Einsatzkräfte alarmiert?</summary>
-  <p>Nein. FAS schickt die Einsätze nur in den Fireboard-Alarmeingang. Piepser,
+  <p>Nein. FAS schickt die Alarme nur in den Fireboard-Alarmeingang. Piepser,
   Sirene, SMS oder Alarmierungs-Apps werden nicht ausgelöst.</p>
 </details>
 
@@ -276,7 +286,7 @@ Weitere Spalten gibt es für Meldende, Koordinaten, feste Zeiten
   <summary>Der Laptop ist mitten in der Übung ausgegangen.</summary>
   <p>Einfach FAS wieder starten. Es fragt „Letzte Übung fortsetzen?“ – mit
   <kbd>J</kbd> geht es dort weiter, wo es aufgehört hat. Schon gesendete
-  Einsätze werden nicht noch einmal geschickt.</p>
+  Alarme werden nicht noch einmal geschickt.</p>
 </details>
 
 <details>
@@ -322,61 +332,21 @@ Versionen. Alle Downloads stehen auf der <a href="https://github.com/kventil/fir
 <!-- Order: the newest regular release first, then pre-releases (section
      class="beta"), then the older releases. -->
 
-<h3><a href="https://github.com/kventil/fireboard-alarm-simulator-releases/releases/tag/v2.0.0">2.0.0</a> <span class="badge stable">Aktuelle Version</span> <span class="date">28. September 2026</span></h3>
+<h3><a href="https://github.com/kventil/fireboard-alarm-simulator-releases/releases/tag/v2.1.0">2.1.0</a> <span class="badge stable">Aktuelle Version</span> <span class="date">9. Oktober 2026</span></h3>
+<ul>
+  <li>Neue Übungsansicht: mehr Platz, alle Details zum Alarm, Regieanweisungen, Bedienung mit der Maus.</li>
+  <li>Sicherer im Live-Betrieb: Rückfragen vor dem Senden, Übung startet erst auf Tastendruck, pausiert bei Fehlern oder Ruhezustand.</li>
+  <li>Mehr Möglichkeiten im Drehbuch: mehrere Lage-Updates, automatisches Schließen, Reserve-Alarme nur von Hand.</li>
+  <li>Handy-Fernbedienung: Details zu jedem Alarm, Notizen fürs Protokoll, Hinweis bei gesendeten Alarmen, Wiederverbinden nach dem Schließen der Seite.</li>
+  <li>Übungen lassen sich wiederholen und aufräumen; der AuthKey kann gespeichert werden.</li>
+</ul>
+
+<h3><a href="https://github.com/kventil/fireboard-alarm-simulator-releases/releases/tag/v2.0.0">2.0.0</a> <span class="date">28. September 2026</span></h3>
 <ul>
   <li>Handy-Fernbedienung: klareres Koppeln, zuverlässiger QR-Code, noch nicht
     ausgeführte Befehle sind sichtbar.</li>
   <li>FAS und die Steuerseite gleichen ihre Versionen ab.</li>
 </ul>
-
-<section class="beta">
-
-<h3><a href="https://github.com/kventil/fireboard-alarm-simulator-releases/releases/tag/v2.1.0-beta.4">2.1.0-beta.4</a> <span class="badge beta">Beta · nur zum Testen</span> <span class="date">7. Oktober 2026</span></h3>
-<p>
-<b>Vorabversion, noch nicht fertig getestet.</b> Für Übungen bitte die
-aktuelle Version 2.0.0 verwenden. Wer die Neuerungen ausprobiert:
-Rückmeldungen gern über <a href="#feedback">Feedback</a>.
-</p>
-<ul>
-  <li><b>Übungsansicht:</b> Die Liste nutzt die ganze Fensterhöhe. Darunter
-    steht alles zum ausgewählten Einsatz – Alarmtext, Meldebild, Objekt,
-    Meldender –, in breiten Fenstern daneben, was als Nächstes kommt und was
-    zuletzt passiert ist. In kleinen Fenstern zeigt <kbd>i</kbd> alle Details.
-    Unten stehen nur die Tasten, die gerade passen; Löschen mit <kbd>d</kbd>
-    fragt einmal nach.</li>
-  <li><b>Maus:</b> Einsätze, Einstellungen und alle Schaltflächen lassen sich
-    anklicken, das Mausrad blättert. Senden, Lage-Update und Schließen fragen
-    per Klick in einem kleinen Fenster nach, bevor etwas rausgeht.</li>
-  <li><b>Startbildschirm:</b> zeigt die Schritte, das Änderungsdatum der
-    Excel-Listen und eine nicht beendete Übung direkt in der Liste. Dateien
-    lassen sich mit der Maus wählen; beim AuthKey sind Länge und die letzten
-    vier Zeichen zu sehen.</li>
-  <li><b>Übung wiederholen:</b> Wird dieselbe Excel-Liste noch einmal
-    durchgespielt, erscheinen die Alarme in Fireboard wieder als neue Einsätze.
-    Bisher blieben sie aus, weil Fireboard sie für bereits bekannte Einsätze
-    hielt.</li>
-  <li><b>Alle Alarme schließen</b> schließt, was laut Protokoll noch offen ist –
-    auch aus früheren Übungen und einschließlich der Zufallsalarme. Die
-    Protokolldatei neben der Excel-Liste dafür nicht löschen.</li>
-  <li><b>AuthKey speichern:</b> Auf Wunsch merkt sich FAS den AuthKey –
-    verschlüsselt über das Windows-Benutzerkonto bzw. im Mac-Schlüsselbund,
-    nie im Klartext. Im Startbildschirm bei der Eingabe mit <kbd>Tab</kbd>
-    ankreuzen.</li>
-  <li><b>Key-Datei unter Windows:</b> Key-Dateien aus PowerShell oder dem
-    Editor (UTF-16) werden richtig gelesen und auch neben dem Programm
-    gefunden. Optionen dürfen hinter der Excel-Datei stehen.</li>
-  <li><b>Fenster bleibt offen:</b> Bei einem Fehler beim Start schließt sich
-    das Fenster unter Windows nicht mehr sofort – die Meldung bleibt lesbar.</li>
-  <li><b>Diagnose:</b> Bei einem Absturz schreibt FAS die Datei
-    <code>fas_diagnose.txt</code>, mit <code>-diagnose</code> auch bei jedem
-    Start. Sie enthält keinen AuthKey und hilft bei der Fehlersuche.</li>
-</ul>
-<p class="small">
-Seit <a href="https://github.com/kventil/fireboard-alarm-simulator-releases/releases/tag/v2.1.0-beta.3">beta.3</a> (7. Oktober): Bedienung mit der
-Maus. Nach dem Beenden steht eine kurze Zusammenfassung im Fenster.
-</p>
-
-</section>
 
 <h3><a href="https://github.com/kventil/fireboard-alarm-simulator-releases/releases/tag/v1.4.0">1.4.0</a> <span class="date">27. September 2026</span></h3>
 <ul>

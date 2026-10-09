@@ -15,6 +15,8 @@
   <div id="mode" class="mode" hidden></div>
 </header>
 
+<div id="notice" class="notice" role="status" aria-live="polite" hidden></div>
+
 <main>
   <section id="status" class="status">Verbinde …</section>
 
@@ -32,6 +34,7 @@
     <div class="actions">
       <button id="pause" type="button">Pause</button>
       <button id="random" type="button" hidden>Zufallsalarm</button>
+      <button id="note" type="button" hidden>Notiz</button>
     </div>
     <h2>Als Nächstes</h2>
     <ul id="upcoming" class="rows"></ul>
@@ -39,8 +42,33 @@
     <ul id="done" class="rows"></ul>
   </section>
 
+  <label class="setting"><input id="vibrate" type="checkbox" checked> Vibration bei gesendeten Alarmen</label>
+
+  <button id="disconnect" type="button" class="secondary" hidden>Trennen</button>
+
   <div id="toast" class="toast" hidden></div>
 </main>
+
+<section id="sheet" class="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" hidden>
+  <div class="sheet-head">
+    <button id="sheet-close" type="button" class="back" aria-label="Zurück zur Liste">‹ Zurück</button>
+    <div id="sheet-title" class="sheet-title"></div>
+  </div>
+  <div id="sheet-body" class="sheet-body"></div>
+</section>
+
+<section id="composer" class="composer" role="dialog" aria-modal="true" aria-labelledby="composer-title" hidden>
+  <div class="composer-box">
+    <h3 id="composer-title">Notiz</h3>
+    <p class="composer-hint">Landet im Verlauf und im Protokoll am Laptop.</p>
+    <textarea id="note-text" maxlength="500" rows="5" placeholder="z. B. Statist erst nach 10 Minuten freigeben"></textarea>
+    <div class="composer-meta"><span id="note-err" class="note-err" role="alert"></span><span id="note-count" class="note-count">0 / 500</span></div>
+    <div class="composer-btns">
+      <button id="note-cancel" type="button">Abbrechen</button>
+      <button id="note-save" type="button" class="primary">Speichern</button>
+    </div>
+  </div>
+</section>
 
 <footer>
   Die Verbindung ist Ende-zu-Ende verschlüsselt. Diese Seite speichert keine Alarmdaten.
